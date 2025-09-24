@@ -1,6 +1,6 @@
 spring:
   application:
-    name: TaskFlow
+    name: movie-project
   config:
     import: optional:file:.env[.properties]
   datasource:
