@@ -1,5 +1,6 @@
 package com.movieproject.common.exception;
 
+import com.movieproject.common.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,4 +45,5 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(errorCode));
     }
 }
+
 
