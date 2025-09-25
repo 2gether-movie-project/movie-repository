@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: movie-project
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+jwt:
+  secret: "xt/S0ffqB5ldIkAWtJrB1PfcuBf17La0xPNN/l6oWIQXSOYHeOxMYXMgJEq+vlIytCnImotMBDKyHThFL8jVQg=="
