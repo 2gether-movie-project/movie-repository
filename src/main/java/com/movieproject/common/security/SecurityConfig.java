@@ -1,4 +1,4 @@
-package com.movieproject.security;
+package com.movieproject.common.security;
 
 
 import org.springframework.context.annotation.Bean;

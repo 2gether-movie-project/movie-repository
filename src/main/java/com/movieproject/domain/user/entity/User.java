@@ -2,13 +2,14 @@ package com.movieproject.domain.user.entity;
 
 import com.movieproject.common.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
     @Id
@@ -48,6 +49,7 @@ public class User extends BaseEntity {
     public static User createWithDefaultRole(String username, String email, String password) {
         return create(username, email, password, Role.USER);
     }
+
     public boolean isAdmin() {
         return role == Role.ADMIN;
     }

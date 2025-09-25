@@ -5,13 +5,13 @@ import com.movieproject.domain.user.dto.request.LoginRequestDto;
 import com.movieproject.domain.user.dto.request.PasswordChangeDto;
 import com.movieproject.domain.user.dto.request.UserUpdateDto;
 import com.movieproject.domain.user.dto.response.LoginResponseDto;
-import com.movieproject.domain.user.dto.response.UserRequestDto;
+import com.movieproject.domain.user.dto.request.UserRequestDto;
 import com.movieproject.domain.user.dto.response.UserResponseDto;
 import com.movieproject.domain.user.entity.User;
 import com.movieproject.domain.user.exception.UserException;
 import com.movieproject.domain.user.exception.UserErrorCode;
 import com.movieproject.domain.user.repository.UserRepository;
-import com.movieproject.security.JwtProvider;
+import com.movieproject.common.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,31 +30,31 @@ public class UserInternalService {
     @Transactional
     public UserResponseDto signup(UserRequestDto userRequestDto) {
 
-        if (userRepository.existsByEmail(userRequestDto.getEmail())) {
+        if (userRepository.existsByEmail(userRequestDto.email())) {
             throw new UserException(UserErrorCode.ALREADY_EXIST_EMAIL);
         }
 
-        String encodedPassword = passwordEncoder.encode(userRequestDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(userRequestDto.password());
 
         User user = User.create(
-                userRequestDto.getUsername(),
-                userRequestDto.getEmail(),
+                userRequestDto.username(),
+                userRequestDto.email(),
                 encodedPassword,
-                userRequestDto.getRole() //Role.USER
+                userRequestDto.role() //Role.USER
 
         );
-        userRepository.save(user);
+        User newuser = userRepository.save(user);
 
-        return UserResponseDto.from(user);
+        return UserResponseDto.from(newuser);
     }
 
     //로그인
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
-        User user = userRepository.findByUsername(loginRequestDto.getEmail())
+        User user = userRepository.findByUsername(loginRequestDto.email())
                 .orElseThrow(() -> new UserException(UserErrorCode.INVALID_LOGIN_CREDENTIALS));
 
-        if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(loginRequestDto.password(), user.getPassword())) {
             throw new UserException(UserErrorCode.INVALID_LOGIN_CREDENTIALS);
         }
 
@@ -62,10 +62,10 @@ public class UserInternalService {
         String refreshToken = jwtProvider.createRefreshToken(user.getUserId());
 
 
-        return LoginResponseDto.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return LoginResponseDto.of(
+                accessToken,
+                refreshToken
+        );
     }
 
     //토큰 갱신
@@ -82,10 +82,10 @@ public class UserInternalService {
         // 새로운 액세스 토큰 생성
         String newAccessToken = jwtProvider.createAccessToken(user.getUserId(), user.getUsername(), user.getRole());
 
-        return LoginResponseDto.builder()
-                .accessToken(newAccessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return new LoginResponseDto(
+                newAccessToken,
+                refreshToken
+        );
     }
 
     @Transactional(readOnly = true)
@@ -94,6 +94,7 @@ public class UserInternalService {
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
         return UserResponseDto.from(user);
     }
+
     // 내 정보 수정
     @Transactional
     public UserResponseDto updateMyInfo(Long userId, UserUpdateDto userUpdateDto) {
@@ -101,20 +102,20 @@ public class UserInternalService {
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         // 사용자명 중복 체크 (자신 제외)
-        if (userUpdateDto.getUsername() != null && !userUpdateDto.getUsername().equals(user.getUsername())) {
-            if (userRepository.existsByUsername(userUpdateDto.getUsername())) {
+        if (userUpdateDto.username() != null && !userUpdateDto.username().equals(user.getUsername())) {
+            if (userRepository.existsByUsername(userUpdateDto.username())) {
                 throw new UserException(UserErrorCode.ALREADY_EXIST_USERNAME);
             }
         }
 
         // 이메일 중복 체크 (자신 제외)
-        if (userUpdateDto.getEmail() != null && !userUpdateDto.getEmail().equals(user.getEmail())) {
-            if (userRepository.existsByEmail(userUpdateDto.getEmail())) {
+        if (userUpdateDto.email() != null && !userUpdateDto.email().equals(user.getEmail())) {
+            if (userRepository.existsByEmail(userUpdateDto.email())) {
                 throw new UserException(UserErrorCode.ALREADY_EXIST_EMAIL);
             }
         }
 
-        user.updateProfile(userUpdateDto.getUsername(), userUpdateDto.getEmail());
+        user.updateProfile(userUpdateDto.username(), userUpdateDto.email());
         return UserResponseDto.from(user);
     }
 
@@ -125,17 +126,17 @@ public class UserInternalService {
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         // 현재 비밀번호 확인
-        if (!passwordEncoder.matches(passwordChangeDto.getCurrentPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(passwordChangeDto.confirmPassword(), user.getPassword())) {
             throw new UserException(UserErrorCode.INVALID_CURRENT_PASSWORD);
         }
 
         // 새 비밀번호와 확인 비밀번호 일치 여부 확인
-        if (!passwordChangeDto.getNewPassword().equals(passwordChangeDto.getConfirmPassword())) {
+        if (!passwordChangeDto.newPassword().equals(passwordChangeDto.confirmPassword())) {
             throw new UserException(UserErrorCode.PASSWORD_MISMATCH);
         }
 
         // 새 비밀번호 암호화 후 업데이트
-        String encodedNewPassword = passwordEncoder.encode(passwordChangeDto.getNewPassword());
+        String encodedNewPassword = passwordEncoder.encode(passwordChangeDto.newPassword());
         user.changePassword(encodedNewPassword);
     }
 

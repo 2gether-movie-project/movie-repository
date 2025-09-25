@@ -1,24 +1,20 @@
 package com.movieproject.domain.user.dto.response;
 
+
 import com.movieproject.domain.user.entity.User;
-import lombok.Builder;
-import lombok.Getter;
 
-@Getter
-@Builder
-public class UserResponseDto {
-
-    private Long userId;
-    private String username;
-    private String email;
-    private String role;
-
+public record UserResponseDto(
+        Long userId,
+        String username,
+        String email,
+        String role // String 타입 유지
+) {
     public static UserResponseDto from(User user) {
-        return UserResponseDto.builder()
-                .userId(user.getUserId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .role(user.getRole().getRole())
-                .build();
+        return new UserResponseDto(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole().name()
+        );
     }
 }

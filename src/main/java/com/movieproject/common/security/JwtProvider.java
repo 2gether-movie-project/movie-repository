@@ -1,4 +1,4 @@
-package com.movieproject.security;
+package com.movieproject.common.security;
 
 import com.movieproject.domain.user.entity.Role;
 import io.jsonwebtoken.*;

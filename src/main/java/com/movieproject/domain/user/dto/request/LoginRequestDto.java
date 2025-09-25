@@ -1,14 +1,14 @@
 package com.movieproject.domain.user.dto.request;
 
+
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
 
-@Getter
-public class LoginRequestDto {
+public record LoginRequestDto(
+        @NotBlank(message = "메일을 입력해주세요")
+        @Email
+        String email,
 
-    @NotBlank(message = "이름을 입력해주세요")
-    private String email;
-
-    @NotBlank(message = "비밀번호를 입력해주세요")
-    private String password;
-}
+        @NotBlank(message = "비밀번호를 입력해주세요")
+        String password
+) {}
