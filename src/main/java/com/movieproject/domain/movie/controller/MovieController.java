@@ -3,7 +3,7 @@ package com.movieproject.domain.movie.controller;
 import com.movieproject.common.response.ApiResponse;
 import com.movieproject.domain.movie.dto.MovieRequestDto;
 import com.movieproject.domain.movie.dto.MovieResponseDto;
-import com.movieproject.domain.movie.service.external.MovieService;
+import com.movieproject.domain.movie.service.MovieInternalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MovieController {
 
-    private final MovieService movieService;
+    private final MovieInternalService movieInternalService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<MovieResponseDto>> createMovie(
             @Valid @RequestBody MovieRequestDto.Create requestDto) {
 
-        MovieResponseDto responseDto = movieService.createMovie(requestDto);
+        MovieResponseDto responseDto = movieInternalService.createMovie(requestDto);
 
         return ApiResponse.created(responseDto, "영화가 성공적으로 등록되었습니다.");
     }
