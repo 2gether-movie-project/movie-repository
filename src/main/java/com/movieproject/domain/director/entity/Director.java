@@ -1,10 +1,7 @@
 package com.movieproject.domain.director.entity;
 
 import com.movieproject.common.entity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -22,12 +19,12 @@ public class Director extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long directorId;
 
-    @NotBlank
+    @Column(nullable = false)
     String name;
 
     String nationality;
 
-    @NotNull
+    @Column(nullable = false)
     LocalDate birthDate;
 
     @Builder
