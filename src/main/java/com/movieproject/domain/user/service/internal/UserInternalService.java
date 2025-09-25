@@ -126,7 +126,7 @@ public class UserInternalService {
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         // 현재 비밀번호 확인
-        if (!passwordEncoder.matches(passwordChangeDto.confirmPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(passwordChangeDto.currentPassword(), user.getPassword())) {
             throw new UserException(UserErrorCode.INVALID_CURRENT_PASSWORD);
         }
 
