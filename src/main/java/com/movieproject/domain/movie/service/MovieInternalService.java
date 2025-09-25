@@ -1,9 +1,9 @@
-package com.movieproject.domain.movie.service.internal;
+package com.movieproject.domain.movie.service;
 
 import com.movieproject.domain.director.entity.Director;
 import com.movieproject.domain.director.service.DirectorExternalService;
-import com.movieproject.domain.director.service.DirectorInternalService;
 import com.movieproject.domain.movie.dto.MovieRequestDto;
+import com.movieproject.domain.movie.dto.MovieResponseDto;
 import com.movieproject.domain.movie.entity.Movie;
 import com.movieproject.domain.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,7 @@ public class MovieInternalService {
     private final MovieRepository movieRepository;
     private final DirectorExternalService directorExternalService;
 
-    public Movie createMovie(MovieRequestDto.Create requestDto) {
-
+    public MovieResponseDto createMovie(MovieRequestDto.Create requestDto) {
         Director director = directorExternalService.findDirectorById(requestDto.directorId());
 
         Movie movie = Movie.builder()
@@ -31,6 +30,8 @@ public class MovieInternalService {
                 .director(director)
                 .build();
 
-        return movieRepository.save(movie);
+        Movie savedMovie = movieRepository.save(movie);
+
+        return MovieResponseDto.from(savedMovie);
     }
 }
