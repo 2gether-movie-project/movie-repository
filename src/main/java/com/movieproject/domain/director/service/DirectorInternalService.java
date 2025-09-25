@@ -2,6 +2,7 @@ package com.movieproject.domain.director.service;
 
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.director.dto.request.DirectorRequest;
+import com.movieproject.domain.director.dto.request.DirectorUpdateRequest;
 import com.movieproject.domain.director.dto.response.DirectorDetailResponse;
 import com.movieproject.domain.director.dto.response.DirectorResponse;
 import com.movieproject.domain.director.entity.Director;
@@ -10,6 +11,7 @@ import com.movieproject.domain.director.exception.DirectorErrorCode;
 import com.movieproject.domain.director.repository.DirectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,13 +54,8 @@ public class DirectorInternalService {
             responses.add(DirectorResponse.from(director));
         }
 
-        return new PageResponse<>(
-                responses,
-                page.getTotalElements(),
-                page.getTotalPages(),
-                pageable.getPageSize(),
-                pageable.getPageNumber()
-        );
+        Page<DirectorResponse> dtoPage = new PageImpl<>(responses, pageable, page.getTotalElements());
+        return PageResponse.fromPage(dtoPage);
     }
 
     @Transactional(readOnly = true)
@@ -72,4 +69,17 @@ public class DirectorInternalService {
         return directorDetailResponse;
     }
 
+    @Transactional
+    public DirectorResponse updateDirector(Long directorId, DirectorUpdateRequest directorUpdateRequest) {
+
+        Director director = directorRepository.findById(directorId)
+                .orElseThrow(() -> new DirectorException(DirectorErrorCode.DIRECTOR_NOT_FOUND));
+
+        director.updateDirector(directorUpdateRequest);
+
+        DirectorResponse directorResponse = DirectorResponse.from(director);
+
+        return directorResponse;
+
+    }
 }

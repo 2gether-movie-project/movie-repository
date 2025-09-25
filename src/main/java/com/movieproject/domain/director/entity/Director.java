@@ -1,6 +1,7 @@
 package com.movieproject.domain.director.entity;
 
 import com.movieproject.common.entity.BaseEntity;
+import com.movieproject.domain.director.dto.request.DirectorUpdateRequest;
 import com.movieproject.domain.movie.entity.Movie;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -48,5 +49,11 @@ public class Director extends BaseEntity {
                 name,
                 nationality,
                 birthDate);
+    }
+
+    public void updateDirector(DirectorUpdateRequest directorUpdateRequest) {
+        this.name = directorUpdateRequest.name();
+        this.nationality = directorUpdateRequest.nationality();
+        this.birthDate = directorUpdateRequest.birthDate();
     }
 }
