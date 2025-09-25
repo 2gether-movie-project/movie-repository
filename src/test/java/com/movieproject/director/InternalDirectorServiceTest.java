@@ -2,6 +2,7 @@ package com.movieproject.director;
 
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.director.dto.request.DirectorRequest;
+import com.movieproject.domain.director.dto.request.DirectorUpdateRequest;
 import com.movieproject.domain.director.dto.response.DirectorDetailResponse;
 import com.movieproject.domain.director.dto.response.DirectorResponse;
 import com.movieproject.domain.director.entity.Director;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -166,6 +168,55 @@ public class InternalDirectorServiceTest  {
         assertThatThrownBy(() -> internalDirectorService.getDirectorDetail(99L))
                 .isInstanceOf(DirectorException.class)
                 .hasMessage(DirectorErrorCode.DIRECTOR_NOT_FOUND.getMessage());
+    }
+    @Test
+    void 감독수정_성공() throws Exception {
+
+        // given
+        Long directorId = 1L;
+        Director director = Director.of("봉준호", "대한민국", LocalDate.of(1970, 9, 14));
+        setDirectorId(director, directorId); // 리플렉션으로 ID 강제 세팅
+
+        DirectorUpdateRequest request = new DirectorUpdateRequest(
+                "봉준호-수정",
+                "KOR",
+                LocalDate.of(1971, 1, 1)
+        );
+
+        when(directorRepository.findById(directorId)).thenReturn(Optional.of(director));
+
+        // when
+        DirectorResponse response = internalDirectorService.updateDirector(directorId, request);
+
+        // then
+        assertThat(response.name()).isEqualTo("봉준호-수정");
+        assertThat(response.nationality()).isEqualTo("KOR");
+        assertThat(response.directorId()).isEqualTo(directorId);
+        verify(directorRepository).findById(directorId);
+    }
+    @Test
+    void 감동수정_실패() {
+        // given
+        Long directorId = 99L;
+        DirectorUpdateRequest request = new DirectorUpdateRequest(
+                "없는 사람",
+                "미상",
+                LocalDate.of(2000, 1, 1)
+        );
+
+        when(directorRepository.findById(directorId)).thenReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> internalDirectorService.updateDirector(directorId, request))
+                .isInstanceOf(DirectorException.class)
+                .hasMessage(DirectorErrorCode.DIRECTOR_NOT_FOUND.getMessage());
+    }
+
+    //리플렉션 나중에 쓸까봐 만듬
+    private void setDirectorId(Director director, Long id) throws Exception {
+        Field field = Director.class.getDeclaredField("directorId");
+        field.setAccessible(true);
+        field.set(director, id);
     }
 
 }

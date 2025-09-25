@@ -2,6 +2,7 @@ package com.movieproject.domain.director.service;
 
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.director.dto.request.DirectorRequest;
+import com.movieproject.domain.director.dto.request.DirectorUpdateRequest;
 import com.movieproject.domain.director.dto.response.DirectorDetailResponse;
 import com.movieproject.domain.director.dto.response.DirectorResponse;
 import com.movieproject.domain.director.entity.Director;
@@ -72,4 +73,17 @@ public class DirectorInternalService {
         return directorDetailResponse;
     }
 
+    @Transactional
+    public DirectorResponse updateDirector(Long directorId, DirectorUpdateRequest directorUpdateRequest) {
+
+        Director director = directorRepository.findById(directorId)
+                .orElseThrow(() -> new DirectorException(DirectorErrorCode.DIRECTOR_NOT_FOUND));
+
+        director.updateDirector(directorUpdateRequest);
+
+        DirectorResponse directorResponse = DirectorResponse.from(director);
+
+        return directorResponse;
+
+    }
 }
