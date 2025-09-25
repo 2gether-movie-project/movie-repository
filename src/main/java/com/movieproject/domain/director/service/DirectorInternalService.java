@@ -11,6 +11,7 @@ import com.movieproject.domain.director.exception.DirectorErrorCode;
 import com.movieproject.domain.director.repository.DirectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,13 +54,8 @@ public class DirectorInternalService {
             responses.add(DirectorResponse.from(director));
         }
 
-        return new PageResponse<>(
-                responses,
-                page.getTotalElements(),
-                page.getTotalPages(),
-                pageable.getPageSize(),
-                pageable.getPageNumber()
-        );
+        Page<DirectorResponse> dtoPage = new PageImpl<>(responses, pageable, page.getTotalElements());
+        return PageResponse.fromPage(dtoPage);
     }
 
     @Transactional(readOnly = true)
