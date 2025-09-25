@@ -1,6 +1,7 @@
 package com.movieproject.domain.director.dto.response;
 
 import com.movieproject.domain.director.entity.Director;
+import com.movieproject.domain.movie.dto.MovieSummaryResponse;
 import com.movieproject.domain.movie.entity.Movie;
 
 import java.util.ArrayList;

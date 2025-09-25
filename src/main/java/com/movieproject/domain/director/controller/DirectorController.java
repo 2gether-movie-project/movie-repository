@@ -34,13 +34,13 @@ public class DirectorController {
 
     //감독 전체조회
     @GetMapping
-    public ResponseEntity<PageResponse<DirectorResponse>> getDirectors(
-            @PageableDefault(size = 10, sort = "directorId", direction = Sort.Direction.DESC) Pageable pageable
+    public ResponseEntity<ApiResponse<PageResponse<DirectorResponse>>> getDirectors(
+            @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable
     ) {
 
         PageResponse<DirectorResponse> response = internalDirectorService.getDirectors(pageable);
 
-        return ResponseEntity.ok(response);
+        return ApiResponse.success(response,"감독 목록이 성공적으로 조회되었습니다.");
     }
 
     //감독 상세조회
