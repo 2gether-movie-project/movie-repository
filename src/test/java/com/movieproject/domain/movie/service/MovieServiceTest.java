@@ -44,7 +44,7 @@ class MovieServiceTest {
                 1L
         );
 
-        Director testDirector = Director.of("테스트 감독", "KOREA");
+        Director testDirector = Director.of("테스트 감독", "KOREA",LocalDate.of(1969, 9, 14));
         ReflectionTestUtils.setField(testDirector, "directorId", 1L); // ID 설정
 
         Movie mockMovie = Movie.builder()
