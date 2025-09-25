@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class InternalDirectorService {
+public class DirectorInternalService {
 
     private final DirectorRepository directorRepository;
 

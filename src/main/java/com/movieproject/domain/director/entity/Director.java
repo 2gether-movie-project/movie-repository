@@ -2,8 +2,6 @@ package com.movieproject.domain.director.entity;
 
 import com.movieproject.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

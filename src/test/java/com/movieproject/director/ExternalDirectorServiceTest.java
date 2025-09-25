@@ -6,7 +6,7 @@ import com.movieproject.domain.director.entity.Director;
 import com.movieproject.domain.director.exception.DirectorErrorCode;
 import com.movieproject.domain.director.exception.DirectorException;
 import com.movieproject.domain.director.repository.DirectorRepository;
-import com.movieproject.domain.director.service.ExternalDirectorService;
+import com.movieproject.domain.director.service.DirectorExternalService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,7 @@ public class ExternalDirectorServiceTest {
     private DirectorRepository directorRepository;
 
     @InjectMocks
-    private ExternalDirectorService externalDirectorService;
+    private DirectorExternalService externalDirectorService;
 
     @Test
     void 외부도메인에서감독정보를필요로할때_정상반환() {

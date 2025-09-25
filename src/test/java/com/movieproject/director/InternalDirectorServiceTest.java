@@ -6,7 +6,7 @@ import com.movieproject.domain.director.entity.Director;
 import com.movieproject.domain.director.exception.DirectorErrorCode;
 import com.movieproject.domain.director.exception.DirectorException;
 import com.movieproject.domain.director.repository.DirectorRepository;
-import com.movieproject.domain.director.service.InternalDirectorService;
+import com.movieproject.domain.director.service.DirectorInternalService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ public class InternalDirectorServiceTest  {
     private DirectorRepository directorRepository;
 
     @InjectMocks
-    private InternalDirectorService internalDirectorService;
+    private DirectorInternalService internalDirectorService;
 
     @Test
     void 감독생성시_정상등록() {
