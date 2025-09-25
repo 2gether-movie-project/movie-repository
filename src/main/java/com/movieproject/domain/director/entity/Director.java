@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,13 +30,22 @@ public class Director extends BaseEntity {
     @NotNull
     LocalDate birthDate;
 
-    private Director(String name, String nationality, LocalDate birthDate) {
+    @Builder
+    private Director(String name,
+                     String nationality,
+                     LocalDate birthDate) {
         this.name = name;
         this.nationality = nationality;
         this.birthDate = birthDate;
     }
 
-    public static Director of(String name, String nationality, LocalDate birthDate) {
-        return new Director(name, nationality, birthDate);
+    public static Director of(
+              String name,
+              String nationality,
+              LocalDate birthDate) {
+        return new Director(
+                name,
+                nationality,
+                birthDate);
     }
 }
