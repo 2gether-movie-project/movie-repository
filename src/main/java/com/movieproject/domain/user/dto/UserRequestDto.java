@@ -24,7 +24,6 @@ public class UserRequestDto {
     @NotNull(message = "역할을 선택해주세요")
     private Role role;
 
-    // Entity로 변환하는 메서드
     public User toEntity() {
         return User.builder()
                 .username(username)
