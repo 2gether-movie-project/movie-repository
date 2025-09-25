@@ -1,8 +1,11 @@
-package com.movieproject.domain.movie.dto;
+package com.movieproject.domain.movie.dto.response;
 
-import com.movieproject.domain.director.dto.DirectorDto;
+import com.movieproject.domain.actor.dto.response.ActorDto;
+import com.movieproject.domain.director.dto.response.DirectorDto;
 import com.movieproject.domain.movie.entity.Movie;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public record MovieResponseDto(
         Long movieId,
@@ -12,9 +15,14 @@ public record MovieResponseDto(
         String nationality,
         String genre,
         Double rating,
-        DirectorDto director
+        DirectorDto director,
+        List<ActorDto> cast
 ) {
     public static MovieResponseDto from(Movie movie) {
+        List<ActorDto> castDtos = movie.getCastMembers().stream()
+                .map(cast -> ActorDto.from(cast.getActor()))
+                .collect(Collectors.toList());
+
         return new MovieResponseDto(
                 movie.getId(),
                 movie.getTitle(),
@@ -23,7 +31,8 @@ public record MovieResponseDto(
                 movie.getNationality(),
                 movie.getGenre(),
                 movie.getRating(),
-                DirectorDto.from(movie.getDirector())
+                DirectorDto.from(movie.getDirector()),
+                castDtos
         );
     }
 }

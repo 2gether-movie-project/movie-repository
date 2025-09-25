@@ -2,8 +2,8 @@ package com.movieproject.domain.movie.service;
 
 import com.movieproject.domain.director.entity.Director;
 import com.movieproject.domain.director.service.DirectorExternalService;
-import com.movieproject.domain.movie.dto.MovieRequestDto;
-import com.movieproject.domain.movie.dto.MovieResponseDto;
+import com.movieproject.domain.movie.dto.request.MovieRequestDto;
+import com.movieproject.domain.movie.dto.response.MovieResponseDto;
 import com.movieproject.domain.movie.entity.Movie;
 import com.movieproject.domain.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
