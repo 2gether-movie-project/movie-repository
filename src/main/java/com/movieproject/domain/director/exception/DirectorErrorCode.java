@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum DirectorErrorCode implements ErrorCode {
 
+    ALREADY_EXIST_DIRECTOR(HttpStatus.CONFLICT, "이미 존재하는 감독 입니다."),
     DIRECTOR_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 감독을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
