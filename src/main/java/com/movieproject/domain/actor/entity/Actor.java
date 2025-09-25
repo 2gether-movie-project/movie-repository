@@ -19,7 +19,6 @@ public class Actor extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String nationality;
 
     @Builder
