@@ -15,7 +15,7 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -54,5 +54,14 @@ public class User extends BaseEntity {
 
     public boolean isUser() {
         return role == Role.USER;
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateProfile(String username, String email) {
+        this.username = username;
+        this.email = email;
     }
 }

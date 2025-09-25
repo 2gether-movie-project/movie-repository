@@ -1,4 +1,4 @@
-package com.movieproject.domain.user.dto;
+package com.movieproject.domain.user.dto.response;
 
 import com.movieproject.domain.user.entity.Role;
 import com.movieproject.domain.user.entity.User;
