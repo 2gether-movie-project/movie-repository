@@ -34,6 +34,12 @@ public class UserExternalService {
                 .orElseThrow(() -> new GlobalException(UserErrorCode.USER_NOT_FOUND));
     }
 
+    public UserResponseDto getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+        return UserResponseDto.from(user);
+    }
+
     public boolean existsById(Long userId) {
         return userRepository.existsById(userId);
     }

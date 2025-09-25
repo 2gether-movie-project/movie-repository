@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Date;
 
 @Slf4j
@@ -23,7 +24,9 @@ public class JwtProvider {
             @Value("${jwt.access-token-expiration:1800000}") long accessTokenExpiration, // 30분
             @Value("${jwt.refresh-token-expiration:1209600000}") long refreshTokenExpiration // 2주
     ) {
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
+
         this.accessTokenExpiration = accessTokenExpiration;
         this.refreshTokenExpiration = refreshTokenExpiration;
     }

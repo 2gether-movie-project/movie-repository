@@ -51,7 +51,7 @@ public class UserInternalService {
     //로그인
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
-        User user = userRepository.findByUsername(loginRequestDto.email())
+        User user = userRepository.findByEmail(loginRequestDto.email())
                 .orElseThrow(() -> new UserException(UserErrorCode.INVALID_LOGIN_CREDENTIALS));
 
         if (!passwordEncoder.matches(loginRequestDto.password(), user.getPassword())) {

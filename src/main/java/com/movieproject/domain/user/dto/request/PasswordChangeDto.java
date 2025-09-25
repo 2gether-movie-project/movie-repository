@@ -10,8 +10,7 @@ public record PasswordChangeDto(
 
         @NotBlank(message = "새 비밀번호를 입력해주세요")
         @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다")
-        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=[\\]{};':\"\\\\|,.<>/?]).+$",
-                message = "비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).+$")
         String newPassword,
 
         @NotBlank(message = "새 비밀번호 확인을 입력해주세요")

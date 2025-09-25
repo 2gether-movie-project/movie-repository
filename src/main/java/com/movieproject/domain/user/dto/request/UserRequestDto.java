@@ -14,10 +14,7 @@ public record UserRequestDto(
 
         @NotBlank(message = "돌아가라, 나는 SKT처럼 만만하지 않아!")
         @Size(min = 8, message = "내가 KT인줄 아세요?")
-        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=[\\]{};':\"\\\\|,.<>/?]).+$",
-                message = "그렇다고 LG가 좋다는건 절대 아님.")
-        String password,
-
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).+$")        String password,
         @NotNull(message = "역할을 선택해주세요")
         Role role
 ) {
