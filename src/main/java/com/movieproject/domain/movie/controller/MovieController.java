@@ -3,7 +3,6 @@ package com.movieproject.domain.movie.controller;
 import com.movieproject.common.response.ApiResponse;
 import com.movieproject.domain.movie.dto.MovieRequestDto;
 import com.movieproject.domain.movie.dto.MovieResponseDto;
-import com.movieproject.domain.movie.service.MovieExternalService;
 import com.movieproject.domain.movie.service.MovieInternalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MovieController {
 
     private final MovieInternalService movieInternalService;
-    private final MovieExternalService movieExternalService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<MovieResponseDto>> createMovie(
