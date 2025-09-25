@@ -4,6 +4,7 @@ package com.movieproject.domain.director.controller;
 import com.movieproject.common.response.ApiResponse;
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.director.dto.request.DirectorRequest;
+import com.movieproject.domain.director.dto.request.DirectorUpdateRequest;
 import com.movieproject.domain.director.dto.response.DirectorDetailResponse;
 import com.movieproject.domain.director.dto.response.DirectorResponse;
 import com.movieproject.domain.director.service.DirectorInternalService;
@@ -50,6 +51,16 @@ public class DirectorController {
     ) {
         DirectorDetailResponse response = internalDirectorService.getDirectorDetail(directorId);
         return ApiResponse.success(response,"감독 상세 정보가 성공적으로 조회되었습니다.");
+    }
+
+    //감독 수정
+    @PostMapping("/{directorId}")
+    public ResponseEntity<ApiResponse<DirectorResponse>> updateDirector(
+            @PathVariable Long directorId,
+            @Valid @RequestBody DirectorUpdateRequest directorUpdateRequest)
+    {
+        DirectorResponse response = internalDirectorService.updateDirector(directorId,directorUpdateRequest);
+        return ApiResponse.success(response,"감독 정보가 성공적으로 수정되었습니다.");
     }
 
 }
