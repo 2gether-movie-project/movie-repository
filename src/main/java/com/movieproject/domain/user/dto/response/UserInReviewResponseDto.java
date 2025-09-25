@@ -5,6 +5,6 @@ public record UserInReviewResponseDto(
         String username
 ) {
     public static UserInReviewResponseDto of(Long userId, String username) {
-        return new UserInReviewResponseDto(userId, username);g
+        return new UserInReviewResponseDto(userId, username);
     }
 }
