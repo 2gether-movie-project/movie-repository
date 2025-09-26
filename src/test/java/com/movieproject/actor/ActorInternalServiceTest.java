@@ -7,13 +7,6 @@ import com.movieproject.domain.actor.exception.ActorErrorCode;
 import com.movieproject.domain.actor.exception.ActorException;
 import com.movieproject.domain.actor.repository.ActorRepository;
 import com.movieproject.domain.actor.service.ActorInternalService;
-import com.movieproject.domain.director.dto.request.DirectorRequest;
-import com.movieproject.domain.director.dto.response.DirectorResponse;
-import com.movieproject.domain.director.entity.Director;
-import com.movieproject.domain.director.exception.DirectorErrorCode;
-import com.movieproject.domain.director.exception.DirectorException;
-import com.movieproject.domain.director.repository.DirectorRepository;
-import com.movieproject.domain.director.service.DirectorInternalService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -77,8 +69,8 @@ public class ActorInternalServiceTest {
         Actor existing = Actor.of(request.name(), request.nationality(), request.birthDate());
 
         // 이미 같은 감독이 존재한다고 가정
-        when(actorRepository.findByNameAndBirthDate(request.name(), request.birthDate()))
-                .thenReturn(Optional.of(existing));
+        when(actorRepository.existsByNameAndBirthDate(request.name(), request.birthDate()))
+                .thenReturn(true);
 
         // when & then
         assertThatThrownBy(() -> actorInternalService.createActors(request))
