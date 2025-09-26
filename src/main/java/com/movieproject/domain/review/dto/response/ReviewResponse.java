@@ -1,8 +1,8 @@
-package com.movieproject.domain.review.dto;
+package com.movieproject.domain.review.dto.response;
 
-import com.movieproject.domain.movie.dto.MovieInReviewResponse;
+import com.movieproject.domain.movie.dto.response.MovieInReviewResponse;
 import com.movieproject.domain.review.entity.Review;
-import com.movieproject.domain.user.dto.UserInReviewResponse;
+import com.movieproject.domain.user.dto.response.UserInReviewResponseDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ public record ReviewResponse(
         String content,
         BigDecimal rating,
         MovieInReviewResponse movie,
-        UserInReviewResponse user,
+        UserInReviewResponseDto user,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -22,7 +22,7 @@ public record ReviewResponse(
                 review.getContent(),
                 review.getRating(),
                 MovieInReviewResponse.from(review.getMovie()),
-                UserInReviewResponse.from(review.getUser()),
+                UserInReviewResponseDto.of(review.getUser()),
                 review.getCreatedAt(),
                 review.getUpdatedAt()
         );

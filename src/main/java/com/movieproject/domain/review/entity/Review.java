@@ -41,4 +41,11 @@ public class Review extends BaseEntity {
         this.movie = movie;
         this.user = user;
     }
+
+    public void updateReview(String content, BigDecimal rating) {
+        this.content = content;
+        if (rating != null) {
+            this.rating = rating;
+        }
+    }
 }
