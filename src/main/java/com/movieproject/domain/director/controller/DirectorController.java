@@ -29,14 +29,14 @@ public class DirectorController {
 
         DirectorResponse directorResponse = internalDirectorService.createDirectors(directorRequest);
 
-        return ApiResponse.created(directorResponse,"감독이 성공적으로 등록되었습니다.");
+        return ApiResponse.created(directorResponse, "감독이 성공적으로 등록되었습니다.");
     }
 
 
     //감독 전체조회
     @GetMapping
     public ResponseEntity<PageResponse<DirectorResponse>> getDirectors(
-            @PageableDefault(size = 10, sort = "directorId", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable
     ) {
 
         PageResponse<DirectorResponse> response = internalDirectorService.getDirectors(pageable);
@@ -50,17 +50,16 @@ public class DirectorController {
             @PathVariable Long directorId
     ) {
         DirectorDetailResponse response = internalDirectorService.getDirectorDetail(directorId);
-        return ApiResponse.success(response,"감독 상세 정보가 성공적으로 조회되었습니다.");
+        return ApiResponse.success(response, "감독 상세 정보가 성공적으로 조회되었습니다.");
     }
 
     //감독 수정
     @PostMapping("/{directorId}")
     public ResponseEntity<ApiResponse<DirectorResponse>> updateDirector(
             @PathVariable Long directorId,
-            @Valid @RequestBody DirectorUpdateRequest directorUpdateRequest)
-    {
-        DirectorResponse response = internalDirectorService.updateDirector(directorId,directorUpdateRequest);
-        return ApiResponse.success(response,"감독 정보가 성공적으로 수정되었습니다.");
+            @Valid @RequestBody DirectorUpdateRequest directorUpdateRequest) {
+        DirectorResponse response = internalDirectorService.updateDirector(directorId, directorUpdateRequest);
+        return ApiResponse.success(response, "감독 정보가 성공적으로 수정되었습니다.");
     }
 
 }

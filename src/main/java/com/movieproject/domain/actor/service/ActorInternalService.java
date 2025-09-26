@@ -1,5 +1,6 @@
 package com.movieproject.domain.actor.service;
 
+import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.entity.Actor;
@@ -8,8 +9,14 @@ import com.movieproject.domain.actor.exception.ActorException;
 import com.movieproject.domain.actor.repository.ActorRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +37,19 @@ public class ActorInternalService {
         ActorResponse actorResponse = ActorResponse.from(actor);
 
         return actorResponse;
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<ActorResponse> getActors(Pageable pageable) {
+
+        Page<Actor> page = actorRepository.findAll(pageable);
+
+        List<ActorResponse> responses = new ArrayList<>();
+        for (Actor actor : page.getContent()) {
+            responses.add(ActorResponse.from(actor));
+        }
+
+        Page<ActorResponse> dtoPage = new PageImpl<>(responses, pageable, page.getTotalElements());
+        return PageResponse.fromPage(dtoPage);
     }
 }
