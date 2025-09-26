@@ -79,4 +79,12 @@ public class ActorInternalService {
         return actorResponse;
 
     }
+
+    @Transactional
+    public void deleteActor(Long actorId) {
+        Actor actor = actorRepository.findById(actorId)
+                .orElseThrow(() -> new DirectorException(ActorErrorCode.ACTOR_NOT_FOUND));
+
+        actorRepository.delete(actor);
+    }
 }
