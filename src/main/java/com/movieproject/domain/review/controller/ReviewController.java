@@ -2,6 +2,7 @@ package com.movieproject.domain.review.controller;
 
 import com.movieproject.common.response.ApiResponse;
 import com.movieproject.common.response.PageResponse;
+import com.movieproject.common.security.SecurityUtils;
 import com.movieproject.domain.review.dto.request.ReviewRequest;
 import com.movieproject.domain.review.dto.response.ReviewResponse;
 import com.movieproject.domain.review.dto.response.ReviewWithUserResponse;
@@ -24,9 +25,9 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<ApiResponse<ReviewResponse>> createReview(
             @PathVariable Long movieId,
-            @Valid @RequestBody ReviewRequest.Create request,
-            Long userId
+            @Valid @RequestBody ReviewRequest.Create request
     ) {
+        Long userId = SecurityUtils.getCurrentUserId();
         ReviewResponse savedReview = reviewService.createReview(movieId, request, userId);
 
         return ApiResponse.created(savedReview, "리뷰가 성공적으로 작성되었습니다.");
@@ -49,9 +50,9 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<ReviewResponse>> updateReview(
             @PathVariable Long movieId,
             @PathVariable Long reviewId,
-            @Valid @RequestBody ReviewRequest.Update request,
-            Long userId
+            @Valid @RequestBody ReviewRequest.Update request
             ) {
+        Long userId = SecurityUtils.getCurrentUserId();
         ReviewResponse updatedReview = reviewService.updateReview(movieId, reviewId, request, userId);
 
         return ApiResponse.success(updatedReview, "리뷰가 수정되었습니다.");
@@ -60,9 +61,9 @@ public class ReviewController {
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<String>> deleteReview(
             @PathVariable Long movieId,
-            @PathVariable Long reviewId,
-            Long userId
+            @PathVariable Long reviewId
     ) {
+        Long userId = SecurityUtils.getCurrentUserId();
         reviewService.deleteReview(movieId, reviewId, userId);
 
         return ApiResponse.deleteSuccess("리뷰가 삭제되었습니다.");

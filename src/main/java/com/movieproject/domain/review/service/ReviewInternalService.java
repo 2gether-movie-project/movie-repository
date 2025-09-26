@@ -4,6 +4,7 @@ import com.movieproject.domain.movie.entity.Movie;
 import com.movieproject.domain.movie.service.MovieExternalService;
 import com.movieproject.domain.review.dto.request.ReviewRequest;
 import com.movieproject.domain.review.dto.response.ReviewResponse;
+import com.movieproject.domain.review.dto.response.ReviewWithMovieResponse;
 import com.movieproject.domain.review.dto.response.ReviewWithUserResponse;
 import com.movieproject.domain.review.entity.Review;
 import com.movieproject.domain.review.exception.ReviewErrorCode;
@@ -88,5 +89,12 @@ public class ReviewInternalService {
         }
 
         return review;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ReviewWithMovieResponse> getMyReviews(Long userId, Pageable pageable) {
+        Page<Review> myReviewPage = reviewRepository.findAllByUserId(userId, pageable);
+
+        return myReviewPage.map(ReviewWithMovieResponse::from);
     }
 }
