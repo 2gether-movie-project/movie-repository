@@ -26,19 +26,11 @@ public class Search extends BaseEntity {
     @Column(nullable = false)
     private Long count = 0L;
 
-    public void incrementCount() {
-        this.count++;
-    }
-
     public static Search of(String keyword, String originalKeyword) {
         Search search = new Search();
         search.keyword = keyword;
         search.originalKeyword = originalKeyword;
         search.count = 1L;
         return search;
-    }
-
-    public void updateOriginalKeyword(String originalKeyword) {
-        this.originalKeyword = originalKeyword;
     }
 }
