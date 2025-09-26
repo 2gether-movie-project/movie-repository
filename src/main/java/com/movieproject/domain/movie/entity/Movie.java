@@ -57,4 +57,12 @@ public class Movie extends BaseEntity {
         this.rating = 0.0;
         this.director = director;
     }
+
+    public void update(String title, LocalDate releaseDate, Integer duration, String nationality, String genre) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.nationality = nationality;
+        this.genre = genre;
+    }
 }
