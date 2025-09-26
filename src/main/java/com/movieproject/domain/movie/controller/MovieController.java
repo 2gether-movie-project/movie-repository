@@ -39,4 +39,19 @@ public class MovieController {
         Page<MovieListDto> moviesPage = movieInternalService.getMovies(pageable);
         return ApiResponse.pageSuccess(moviesPage, "영화 목록 조회가 완료되었습니다.");
     }
+
+    @PutMapping("/{movieId}")
+    public ResponseEntity<ApiResponse<MovieResponseDto>> updateMovie(
+            @PathVariable Long movieId,
+            @Valid @RequestBody MovieRequestDto.Update requestDto) {
+
+        MovieResponseDto responseDto = movieInternalService.updateMovie(movieId, requestDto);
+        return ApiResponse.success(responseDto, "영화 정보가 성공적으로 수정되었습니다.");
+    }
+
+    @DeleteMapping("/{movieId}")
+    public ResponseEntity<ApiResponse<Void>> deleteMovie(@PathVariable Long movieId) {
+        movieInternalService.deleteMovie(movieId);
+        return ApiResponse.success(null, "영화가 성공적으로 삭제되었습니다.");
+    }
 }
