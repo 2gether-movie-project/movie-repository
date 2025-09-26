@@ -88,7 +88,7 @@ public class ActorInternalService {
         Actor actor = actorRepository.findById(actorId)
                 .orElseThrow(() -> new DirectorException(ActorErrorCode.ACTOR_NOT_FOUND));
 
-        actorRepository.delete(actor);
+        actor.delete();
     }
 
     @Transactional(readOnly = true)

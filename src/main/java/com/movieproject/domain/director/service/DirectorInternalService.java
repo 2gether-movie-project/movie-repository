@@ -91,7 +91,7 @@ public class DirectorInternalService {
         Director director = directorRepository.findById(directorId)
                 .orElseThrow(() -> new DirectorException(DirectorErrorCode.DIRECTOR_NOT_FOUND));
 
-        directorRepository.delete(director);
+        director.delete();
     }
 
     @Transactional(readOnly = true)
