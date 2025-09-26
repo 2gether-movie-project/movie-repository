@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActorController {
 
     private final ActorInternalService actorInternalService;
+
     //배우 등록
     @PostMapping("")
     public ResponseEntity<ApiResponse<ActorResponse>> createActors(@Valid @RequestBody ActorRequest actorRequest) {
 
         ActorResponse actorResponse = actorInternalService.createActors(actorRequest);
 
-        return ApiResponse.created(actorResponse,"배우가 성공적으로 등록되었습니다.");
+        return ApiResponse.created(actorResponse, "배우가 성공적으로 등록되었습니다.");
     }
 
 }
