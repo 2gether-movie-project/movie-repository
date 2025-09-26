@@ -2,7 +2,7 @@ package com.movieproject.domain.actor.dto.response;
 
 import com.movieproject.domain.actor.entity.Actor;
 import com.movieproject.domain.cast.entity.Cast;
-import com.movieproject.domain.movie.dto.MovieSummaryResponse;
+import com.movieproject.domain.movie.dto.response.MovieSummaryResponse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
