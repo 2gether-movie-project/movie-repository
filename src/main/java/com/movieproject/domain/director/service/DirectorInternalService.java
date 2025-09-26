@@ -82,4 +82,12 @@ public class DirectorInternalService {
         return directorResponse;
 
     }
+
+    @Transactional
+    public void deleteDirector(Long directorId) {
+        Director director = directorRepository.findById(directorId)
+                .orElseThrow(() -> new DirectorException(DirectorErrorCode.DIRECTOR_NOT_FOUND));
+
+        directorRepository.delete(director);
+    }
 }
