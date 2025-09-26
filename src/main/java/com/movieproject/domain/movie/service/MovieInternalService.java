@@ -70,10 +70,10 @@ public class MovieInternalService {
 
     @Transactional
     public void deleteMovie(Long movieId) {
-        if (!movieRepository.existsById(movieId)) {
-            throw new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND);
-        }
-        movieRepository.deleteById(movieId);
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND));
+
+        movie.delete();
     }
 
     public Page<MovieSearchResponse> searchByKeyword(String keyword, int page, int size) {
