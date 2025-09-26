@@ -2,6 +2,7 @@ package com.movieproject.actor;
 
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
+import com.movieproject.domain.actor.dto.request.ActorUpdateRequest;
 import com.movieproject.domain.actor.dto.response.ActorDetailResponse;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.entity.Actor;
@@ -20,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +29,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -172,5 +175,38 @@ public class ActorInternalServiceTest {
         assertThatThrownBy(() -> actorInternalService.getActorDetail(99L))
                 .isInstanceOf(ActorException.class)
                 .hasMessage(ActorErrorCode.ACTOR_NOT_FOUND.getMessage());
+    }
+
+    @Test
+    void 감독수정_성공() throws Exception {
+
+        // given
+        Long actorId = 1L;
+        Actor actor = Actor.of("봉준호", "대한민국", LocalDate.of(1970, 9, 14));
+        setActorId(actor, actorId); // 리플렉션으로 ID 강제 세팅
+
+        ActorUpdateRequest request = new ActorUpdateRequest(
+                "봉준호-수정",
+                "KOR",
+                LocalDate.of(1971, 1, 1)
+        );
+
+        when(actorRepository.findById(actorId)).thenReturn(Optional.of(actor));
+
+        // when
+        ActorResponse response = actorInternalService.updateActor(actorId, request);
+
+        // then
+        assertThat(response.name()).isEqualTo("봉준호-수정");
+        assertThat(response.nationality()).isEqualTo("KOR");
+        assertThat(response.actorId()).isEqualTo(actorId);
+        verify(actorRepository).findById(actorId);
+    }
+
+    //리플렉션 나중에 쓸까봐 만듬
+    private void setActorId(Actor actor, Long id) throws Exception {
+        Field field = Actor.class.getDeclaredField("actorId");
+        field.setAccessible(true);
+        field.set(actor, id);
     }
 }

@@ -2,12 +2,14 @@ package com.movieproject.domain.actor.service;
 
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
+import com.movieproject.domain.actor.dto.request.ActorUpdateRequest;
 import com.movieproject.domain.actor.dto.response.ActorDetailResponse;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.entity.Actor;
 import com.movieproject.domain.actor.exception.ActorErrorCode;
 import com.movieproject.domain.actor.exception.ActorException;
 import com.movieproject.domain.actor.repository.ActorRepository;
+import com.movieproject.domain.director.exception.DirectorException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -62,5 +64,27 @@ public class ActorInternalService {
         ActorDetailResponse actorDetailResponse = ActorDetailResponse.from(actor);
 
         return actorDetailResponse;
+    }
+
+    @Transactional
+    public ActorResponse updateActor(Long actorId, ActorUpdateRequest actorUpdateRequest) {
+
+        Actor actor = actorRepository.findById(actorId)
+                .orElseThrow(() -> new DirectorException(ActorErrorCode.ACTOR_NOT_FOUND));
+
+        actor.updateActor(actorUpdateRequest);
+
+        ActorResponse actorResponse = ActorResponse.from(actor);
+
+        return actorResponse;
+
+    }
+
+    @Transactional
+    public void deleteActor(Long actorId) {
+        Actor actor = actorRepository.findById(actorId)
+                .orElseThrow(() -> new DirectorException(ActorErrorCode.ACTOR_NOT_FOUND));
+
+        actorRepository.delete(actor);
     }
 }
