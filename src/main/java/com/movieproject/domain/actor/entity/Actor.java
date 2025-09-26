@@ -1,15 +1,20 @@
 package com.movieproject.domain.actor.entity;
 
 import com.movieproject.common.entity.BaseEntity;
+import com.movieproject.domain.cast.entity.Cast;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Actor extends BaseEntity {
 
     @Id
@@ -21,9 +26,20 @@ public class Actor extends BaseEntity {
 
     private String nationality;
 
+    @Column(nullable = false)
+    private LocalDate birthDate;
+
+    @OneToMany(mappedBy = "actor")
+    private List<Cast> casts = new ArrayList<>();
+
     @Builder
-    private Actor(String name, String nationality) {
+    private Actor(String name, String nationality, LocalDate birthDate) {
         this.name = name;
         this.nationality = nationality;
+        this.birthDate = birthDate;
+    }
+
+    public static Actor of(String name, String nationality, LocalDate birthDate) {
+        return new Actor(name, nationality, birthDate);
     }
 }
