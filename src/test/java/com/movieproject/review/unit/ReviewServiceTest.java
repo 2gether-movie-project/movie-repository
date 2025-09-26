@@ -4,6 +4,7 @@ import com.movieproject.domain.movie.entity.Movie;
 import com.movieproject.domain.movie.service.MovieExternalService;
 import com.movieproject.domain.review.dto.request.ReviewRequest;
 import com.movieproject.domain.review.dto.response.ReviewResponse;
+import com.movieproject.domain.review.dto.response.ReviewWithMovieResponse;
 import com.movieproject.domain.review.dto.response.ReviewWithUserResponse;
 import com.movieproject.domain.review.entity.Review;
 import com.movieproject.domain.review.exception.ReviewException;
@@ -90,7 +91,7 @@ public class ReviewServiceTest {
         List<Review> reviewList = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             Review review = Review.builder()
-                    .content(i + 1 + ". 리뷰")
+                    .content((i + 1) + ". 리뷰")
                     .rating(new BigDecimal("4.5"))
                     .movie(movie)
                     .user(user)
@@ -217,5 +218,39 @@ public class ReviewServiceTest {
         // then
         assertTrue(review.isDeleted());
         assertNotNull(review.getDeletedAt());
+    }
+
+    @Test
+    void getMyReviews_내_리뷰_목록_조회_성공() {
+
+        // given
+        Long userId = 2L;
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Movie movie = Movie.builder().title("겨울왕국").build();
+        User user = User.builder().username("올라프").build();
+
+        List<Review> reviewList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Review review = Review.builder()
+                    .content((i + 1) + ". 리뷰")
+                    .rating(new BigDecimal("4.0"))
+                    .movie(movie)
+                    .user(user)
+                    .build();
+            reviewList.add(review);
+        }
+
+        PageImpl<Review> reviewPage = new PageImpl<>(reviewList, pageable, reviewList.size());
+
+        when(reviewRepository.findAllByUserId(userId, pageable)).thenReturn(reviewPage);
+
+        // when
+        Page<ReviewWithMovieResponse> result = reviewService.getMyReviews(userId, pageable);
+
+        // then
+        assertNotNull(result);
+        assertEquals(5, result.getContent().size());
+        assertEquals("3. 리뷰", (result.getContent().get(2)).content());
     }
 }
