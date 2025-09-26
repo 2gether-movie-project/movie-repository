@@ -7,9 +7,11 @@ import com.movieproject.domain.movie.entity.Movie;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cast extends BaseEntity {
 
