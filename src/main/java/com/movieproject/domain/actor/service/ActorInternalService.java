@@ -9,11 +9,13 @@ import com.movieproject.domain.actor.entity.Actor;
 import com.movieproject.domain.actor.exception.ActorErrorCode;
 import com.movieproject.domain.actor.exception.ActorException;
 import com.movieproject.domain.actor.repository.ActorRepository;
+import com.movieproject.domain.cast.entity.Cast;
 import com.movieproject.domain.director.exception.DirectorException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,5 +88,13 @@ public class ActorInternalService {
                 .orElseThrow(() -> new DirectorException(ActorErrorCode.ACTOR_NOT_FOUND));
 
         actorRepository.delete(actor);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MovieSearchResponse> searchByKeyword(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Cast> castPage = actorRepository.searchCastsByActor(keyword, pageable);
+        //Page<Cast>의 정보를 유지한 채, Cast 엔티티를 MovieSearchResponse로 변환하여 반환
+        return castPage.map(cast -> MovieSearchResponse.from(cast.getMovie()));
     }
 }
