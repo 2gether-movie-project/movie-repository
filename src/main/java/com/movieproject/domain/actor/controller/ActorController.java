@@ -4,8 +4,6 @@ import com.movieproject.common.response.ApiResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.service.ActorInternalService;
-import com.movieproject.domain.director.dto.request.DirectorRequest;
-import com.movieproject.domain.director.dto.response.DirectorResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

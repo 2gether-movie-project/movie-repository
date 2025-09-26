@@ -1,8 +1,6 @@
 package com.movieproject.domain.actor.repository;
 
 import com.movieproject.domain.actor.entity.Actor;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

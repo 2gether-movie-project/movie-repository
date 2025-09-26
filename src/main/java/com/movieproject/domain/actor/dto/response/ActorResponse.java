@@ -2,7 +2,6 @@ package com.movieproject.domain.actor.dto.response;
 
 
 import com.movieproject.domain.actor.entity.Actor;
-import com.movieproject.domain.director.entity.Director;
 
 import java.time.LocalDate;
 
