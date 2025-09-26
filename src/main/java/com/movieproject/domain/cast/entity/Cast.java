@@ -13,6 +13,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        name = "cast",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"movie_id", "actor_id"})
+        }
+) //대리키 방식을 유지하면서 유니크 제약조건을 추가하는것!!
 public class Cast extends BaseEntity {
 
     @Id
