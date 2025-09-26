@@ -1,0 +1,21 @@
+# src/main/resources/application-test.yml
+spring:
+  application:
+    name: movie-project
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+
+jwt:
+  secret: "xt/S0ffqB5ldIkAWtJrB1PfcuBf17La0xPNN/l6oWIQXSOYHeOxMYXMgJEq+vlIytCnImotMBDKyHThFL8jVQg=="
+  access-token-expiration: 1800000
+  refresh-token-expiration: 1209600000

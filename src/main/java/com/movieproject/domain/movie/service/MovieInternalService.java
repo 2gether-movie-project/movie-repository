@@ -49,4 +49,28 @@ public class MovieInternalService {
         Page<Movie> movies = movieRepository.findAll(pageable);
         return movies.map(MovieListDto::from);
     }
+
+    @Transactional
+    public MovieResponseDto updateMovie(Long movieId, MovieRequestDto.Update requestDto) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND));
+
+        movie.update(
+                requestDto.title(),
+                requestDto.releaseDate(),
+                requestDto.duration(),
+                requestDto.nationality(),
+                requestDto.genre()
+        );
+
+        return MovieResponseDto.from(movie);
+    }
+
+    @Transactional
+    public void deleteMovie(Long movieId) {
+        if (!movieRepository.existsById(movieId)) {
+            throw new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND);
+        }
+        movieRepository.deleteById(movieId);
+    }
 }

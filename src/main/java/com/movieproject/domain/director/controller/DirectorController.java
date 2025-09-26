@@ -62,4 +62,10 @@ public class DirectorController {
         return ApiResponse.success(response, "감독 정보가 성공적으로 수정되었습니다.");
     }
 
+
+    @DeleteMapping("/{directorId}")
+    public ResponseEntity<ApiResponse<Void>> deleteDirector(@PathVariable Long directorId) {
+        internalDirectorService.deleteDirector(directorId);
+        return ApiResponse.success(null, "감독이 성공적으로 삭제되었습니다.");
+    }
 }

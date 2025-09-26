@@ -25,4 +25,13 @@ public record MovieRequestDto() {
             @NotNull(message = "감독 ID는 필수입니다.")
             Long directorId
     ) {}
+
+    public record Update(
+            String title,
+            LocalDate releaseDate,
+            Integer duration,
+            String nationality,
+            String genre
+            // 감독은 변경하지 않는다고 가정
+    ) {}
 }
