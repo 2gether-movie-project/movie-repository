@@ -1,4 +1,4 @@
-package com.movieproject.domain.movie.dto;
+package com.movieproject.domain.movie.dto.response;
 
 import com.movieproject.domain.movie.entity.Movie;
 
