@@ -1,6 +1,7 @@
 package com.movieproject.domain.actor.entity;
 
 import com.movieproject.common.entity.BaseEntity;
+import com.movieproject.domain.actor.dto.request.ActorUpdateRequest;
 import com.movieproject.domain.cast.entity.Cast;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -41,5 +42,11 @@ public class Actor extends BaseEntity {
 
     public static Actor of(String name, String nationality, LocalDate birthDate) {
         return new Actor(name, nationality, birthDate);
+    }
+
+    public void updateActor(ActorUpdateRequest actorUpdateRequest) {
+        this.name = actorUpdateRequest.name();
+        this.nationality = actorUpdateRequest.nationality();
+        this.birthDate = actorUpdateRequest.birthDate();
     }
 }

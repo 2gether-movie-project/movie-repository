@@ -3,6 +3,7 @@ package com.movieproject.domain.actor.controller;
 import com.movieproject.common.response.ApiResponse;
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
+import com.movieproject.domain.actor.dto.request.ActorUpdateRequest;
 import com.movieproject.domain.actor.dto.response.ActorDetailResponse;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.service.ActorInternalService;
@@ -48,5 +49,14 @@ public class ActorController {
     ) {
         ActorDetailResponse response = actorInternalService.getActorDetail(actorId);
         return ApiResponse.success(response, "배우 상세 정보가 성공적으로 조회되었습니다.");
+    }
+
+    //감독 수정
+    @PutMapping("/{actorId}")
+    public ResponseEntity<ApiResponse<ActorResponse>> updateDirector(
+            @PathVariable Long actorId,
+            @Valid @RequestBody ActorUpdateRequest actorUpdateRequest) {
+        ActorResponse response = actorInternalService.updateActor(actorId, actorUpdateRequest);
+        return ApiResponse.success(response, "감독 정보가 성공적으로 수정되었습니다.");
     }
 }
