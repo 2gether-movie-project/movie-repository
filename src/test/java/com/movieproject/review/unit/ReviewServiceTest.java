@@ -4,6 +4,7 @@ import com.movieproject.domain.movie.entity.Movie;
 import com.movieproject.domain.movie.service.MovieExternalService;
 import com.movieproject.domain.review.dto.request.ReviewRequest;
 import com.movieproject.domain.review.dto.response.ReviewResponse;
+import com.movieproject.domain.review.dto.response.ReviewWithUserResponse;
 import com.movieproject.domain.review.entity.Review;
 import com.movieproject.domain.review.exception.ReviewException;
 import com.movieproject.domain.review.repository.ReviewRepository;
@@ -103,14 +104,14 @@ public class ReviewServiceTest {
         when(reviewRepository.findAllByMovieId(movieId, pageable)).thenReturn(reviewPage);
 
         // when
-        Page<ReviewResponse> reviews = reviewService.getReviews(movieId, pageable);
+        Page<ReviewWithUserResponse> reviews = reviewService.getReviews(movieId, pageable);
 
         // then
         assertThat(reviews).isNotNull();
         assertThat(reviews.getContent()).hasSize(15);
         assertThat(reviews.getTotalPages()).isEqualTo(2);
 
-        List<ReviewResponse> responses = reviews.getContent();
+        List<ReviewWithUserResponse> responses = reviews.getContent();
         for (int i = 0; i < responses.size() - 1; i++) { // 최신순 정렬 검증
             assertThat(responses.get(i).createdAt()).isAfter(responses.get(i + 1).createdAt());
         }

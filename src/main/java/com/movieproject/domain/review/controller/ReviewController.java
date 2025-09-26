@@ -4,13 +4,13 @@ import com.movieproject.common.response.ApiResponse;
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.review.dto.request.ReviewRequest;
 import com.movieproject.domain.review.dto.response.ReviewResponse;
+import com.movieproject.domain.review.dto.response.ReviewWithUserResponse;
 import com.movieproject.domain.review.service.ReviewInternalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,14 +33,14 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PageResponse<ReviewResponse>>> getReviews(
+    public ResponseEntity<ApiResponse<PageResponse<ReviewWithUserResponse>>> getReviews(
             @PathVariable Long movieId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<ReviewResponse> reviews = reviewService.getReviews(movieId, pageable);
+        Page<ReviewWithUserResponse> reviews = reviewService.getReviews(movieId, pageable);
 
         return ApiResponse.pageSuccess(reviews, "리뷰 목록이 조회되었습니다.");
     }

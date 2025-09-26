@@ -7,22 +7,20 @@ import com.movieproject.domain.user.dto.response.UserInReviewResponseDto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record ReviewResponse(
+public record ReviewWithMovieResponse(
         Long reviewId,
         String content,
         BigDecimal rating,
         MovieInReviewResponse movie,
-        UserInReviewResponseDto user,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static ReviewResponse from(Review review) {
-        return new ReviewResponse(
+    public static ReviewWithMovieResponse from(Review review) {
+        return new ReviewWithMovieResponse(
                 review.getReviewId(),
                 review.getContent(),
                 review.getRating(),
                 MovieInReviewResponse.from(review.getMovie()),
-                UserInReviewResponseDto.from(review.getUser()),
                 review.getCreatedAt(),
                 review.getUpdatedAt()
         );
