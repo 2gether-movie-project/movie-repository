@@ -1,7 +1,6 @@
 package com.movieproject.domain.actor.repository;
 
 import com.movieproject.domain.actor.entity.Actor;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +14,4 @@ public interface ActorRepository extends JpaRepository<Actor, Long> {
 
     @Query("select a from Actor a left join fetch a.casts c left join fetch c.movie where a.actorId = :actorId")
     Optional<Actor> findByIdWithMovies(@Param("actorId") Long actorId);
-
-    @EntityGraph(attributePaths = {"casts", "casts.movie"})
-    Optional<Actor> findById(Long actorId);
 }
