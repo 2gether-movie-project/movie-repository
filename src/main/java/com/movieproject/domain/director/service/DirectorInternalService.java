@@ -9,6 +9,7 @@ import com.movieproject.domain.director.entity.Director;
 import com.movieproject.domain.director.exception.DirectorErrorCode;
 import com.movieproject.domain.director.exception.DirectorException;
 import com.movieproject.domain.director.repository.DirectorRepository;
+import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
 import com.movieproject.domain.movie.entity.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -11,6 +11,7 @@ import com.movieproject.domain.actor.exception.ActorException;
 import com.movieproject.domain.actor.repository.ActorRepository;
 import com.movieproject.domain.cast.entity.Cast;
 import com.movieproject.domain.director.exception.DirectorException;
+import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
