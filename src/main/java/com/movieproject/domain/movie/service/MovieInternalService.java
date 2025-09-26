@@ -6,11 +6,13 @@ import com.movieproject.domain.director.service.DirectorExternalService;
 import com.movieproject.domain.movie.dto.request.MovieRequestDto;
 import com.movieproject.domain.movie.dto.response.MovieListDto;
 import com.movieproject.domain.movie.dto.response.MovieResponseDto;
+import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
 import com.movieproject.domain.movie.entity.Movie;
 import com.movieproject.domain.movie.exception.MovieErrorCode;
 import com.movieproject.domain.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,5 +74,11 @@ public class MovieInternalService {
             throw new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND);
         }
         movieRepository.deleteById(movieId);
+    }
+
+    public Page<MovieSearchResponse> searchByKeyword(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Movie> moviePage = movieRepository.searchByTitle(keyword, pageable);
+        return moviePage.map(MovieSearchResponse::from);
     }
 }

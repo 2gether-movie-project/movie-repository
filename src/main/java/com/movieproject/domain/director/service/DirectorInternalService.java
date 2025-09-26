@@ -6,12 +6,14 @@ import com.movieproject.domain.director.dto.request.DirectorUpdateRequest;
 import com.movieproject.domain.director.dto.response.DirectorDetailResponse;
 import com.movieproject.domain.director.dto.response.DirectorResponse;
 import com.movieproject.domain.director.entity.Director;
-import com.movieproject.domain.director.exception.DirectorException;
 import com.movieproject.domain.director.exception.DirectorErrorCode;
+import com.movieproject.domain.director.exception.DirectorException;
 import com.movieproject.domain.director.repository.DirectorRepository;
+import com.movieproject.domain.movie.entity.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +38,7 @@ public class DirectorInternalService {
             throw new DirectorException(DirectorErrorCode.ALREADY_EXIST_DIRECTOR);
         });
 
-        Director director = directorRepository.save(Director.of(directorRequest.name(), directorRequest.nationality(),  directorRequest.birthDate()));
+        Director director = directorRepository.save(Director.of(directorRequest.name(), directorRequest.nationality(), directorRequest.birthDate()));
 
         DirectorResponse directorResponse = DirectorResponse.from(director);
 
@@ -89,5 +91,12 @@ public class DirectorInternalService {
                 .orElseThrow(() -> new DirectorException(DirectorErrorCode.DIRECTOR_NOT_FOUND));
 
         directorRepository.delete(director);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MovieSearchResponse> searchByKeyword(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Movie> moviePage = directorRepository.searchMoviesByDirector(keyword, pageable);
+        return moviePage.map(MovieSearchResponse::from);
     }
 }
