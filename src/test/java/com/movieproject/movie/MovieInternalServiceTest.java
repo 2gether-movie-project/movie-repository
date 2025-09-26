@@ -138,13 +138,16 @@ class MovieInternalServiceTest {
     void deleteMovie_success() {
         // given
         Long movieId = 1L;
-        when(movieRepository.existsById(movieId)).thenReturn(true);
+        Movie mockMovie = mock(Movie.class);
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
 
         // when
         movieInternalService.deleteMovie(movieId);
 
         // then
-        verify(movieRepository, times(1)).deleteById(movieId);
+        verify(movieRepository, times(1)).findById(movieId);
+        verify(mockMovie, times(1)).delete();
     }
 
     @Test
