@@ -150,8 +150,7 @@ public class UserInternalService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new UserException(UserErrorCode.INVALID_PASSWORD);
         }
-
-        userRepository.delete(user);
+        user.delete();
     }
 
     // 로그아웃 (토큰 무효화)
