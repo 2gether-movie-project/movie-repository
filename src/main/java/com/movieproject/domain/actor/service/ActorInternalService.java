@@ -20,14 +20,12 @@ public class ActorInternalService {
     @Transactional
     public ActorResponse createActors(@Valid ActorRequest actorRequest) {
 
-        actorRepository.findByNameAndBirthDate(
-                actorRequest.name(),
-                actorRequest.birthDate()
-        ).ifPresent(d -> {
+        if (actorRepository.existsByNameAndBirthDate(actorRequest.name(), actorRequest.birthDate())) {
             throw new ActorException(ActorErrorCode.ALREADY_EXIST_ACTOR);
-        });
+        }
 
-        Actor actor = actorRepository.save(Actor.of(actorRequest.name(), actorRequest.nationality(),  actorRequest.birthDate()));
+
+        Actor actor = actorRepository.save(Actor.of(actorRequest.name(), actorRequest.nationality(), actorRequest.birthDate()));
 
         ActorResponse actorResponse = ActorResponse.from(actor);
 

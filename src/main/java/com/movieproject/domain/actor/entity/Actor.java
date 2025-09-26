@@ -21,6 +21,7 @@ public class Actor extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long actorId;
 
+    @Column(nullable = false)
     private String name;
 
     private String nationality;
