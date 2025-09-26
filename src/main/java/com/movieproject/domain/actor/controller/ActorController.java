@@ -3,6 +3,7 @@ package com.movieproject.domain.actor.controller;
 import com.movieproject.common.response.ApiResponse;
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
+import com.movieproject.domain.actor.dto.response.ActorDetailResponse;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.service.ActorInternalService;
 import jakarta.validation.Valid;
@@ -38,5 +39,14 @@ public class ActorController {
         PageResponse<ActorResponse> response = actorInternalService.getActors(pageable);
 
         return ResponseEntity.ok(response);
+    }
+
+    //배우 상세조회
+    @GetMapping("/{actorId}")
+    public ResponseEntity<ApiResponse<ActorDetailResponse>> getDirectorDetail(
+            @PathVariable Long actorId
+    ) {
+        ActorDetailResponse response = actorInternalService.getActorDetail(actorId);
+        return ApiResponse.success(response, "배우 상세 정보가 성공적으로 조회되었습니다.");
     }
 }

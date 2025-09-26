@@ -2,12 +2,17 @@ package com.movieproject.actor;
 
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
+import com.movieproject.domain.actor.dto.response.ActorDetailResponse;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.entity.Actor;
 import com.movieproject.domain.actor.exception.ActorErrorCode;
 import com.movieproject.domain.actor.exception.ActorException;
 import com.movieproject.domain.actor.repository.ActorRepository;
 import com.movieproject.domain.actor.service.ActorInternalService;
+import com.movieproject.domain.cast.entity.Cast;
+import com.movieproject.domain.cast.enums.CastRole;
+import com.movieproject.domain.director.entity.Director;
+import com.movieproject.domain.movie.entity.Movie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +22,7 @@ import org.springframework.data.domain.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -112,4 +118,59 @@ public class ActorInternalServiceTest {
         assertThat(result.getContent().get(1).nationality()).isEqualTo("영국");
     }
 
+    @Test
+    void 배우상세조회_성공() {
+        // given
+        Director director = Director.builder()
+                .name("봉준호")
+                .nationality("대한민국")
+                .birthDate(LocalDate.of(1970, 9, 14))
+                .build();
+
+        Actor actor = Actor.builder()
+                .name("송강호")
+                .nationality("대한민국")
+                .birthDate(LocalDate.of(1967, 1, 17))
+                .build();
+
+        Movie movie = Movie.builder()
+                .title("기생충")
+                .releaseDate(LocalDate.of(2019, 5, 30))
+                .duration(132)
+                .nationality("대한민국")
+                .genre("드라마")
+                .director(director)
+                .build();
+
+        Cast cast = Cast.builder()
+                .role(CastRole.LEAD)
+                .movie(movie)
+                .actor(actor)
+                .build();
+
+        // 연관관계 수동 설정
+        actor.getCasts().add(cast);
+        movie.getCastMembers().add(cast);
+
+        when(actorRepository.findByIdWithMovies(1L)).thenReturn(Optional.of(actor));
+
+        // when
+        ActorDetailResponse response = actorInternalService.getActorDetail(1L);
+
+        // then
+        assertThat(response.name()).isEqualTo("송강호");
+        assertThat(response.movies()).hasSize(1);
+        assertThat(response.movies().get(0).title()).isEqualTo("기생충");
+    }
+
+    @Test
+    void 배우상세조회_실패() {
+        // given
+        when(actorRepository.findByIdWithMovies(99L)).thenReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> actorInternalService.getActorDetail(99L))
+                .isInstanceOf(ActorException.class)
+                .hasMessage(ActorErrorCode.ACTOR_NOT_FOUND.getMessage());
+    }
 }

@@ -2,6 +2,7 @@ package com.movieproject.domain.actor.service;
 
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.dto.request.ActorRequest;
+import com.movieproject.domain.actor.dto.response.ActorDetailResponse;
 import com.movieproject.domain.actor.dto.response.ActorResponse;
 import com.movieproject.domain.actor.entity.Actor;
 import com.movieproject.domain.actor.exception.ActorErrorCode;
@@ -51,5 +52,15 @@ public class ActorInternalService {
 
         Page<ActorResponse> dtoPage = new PageImpl<>(responses, pageable, page.getTotalElements());
         return PageResponse.fromPage(dtoPage);
+    }
+
+    @Transactional(readOnly = true)
+    public ActorDetailResponse getActorDetail(Long actorId) {
+        Actor actor = actorRepository.findByIdWithMovies(actorId)
+                .orElseThrow(() -> new ActorException(ActorErrorCode.ACTOR_NOT_FOUND));
+
+        ActorDetailResponse actorDetailResponse = ActorDetailResponse.from(actor);
+
+        return actorDetailResponse;
     }
 }
