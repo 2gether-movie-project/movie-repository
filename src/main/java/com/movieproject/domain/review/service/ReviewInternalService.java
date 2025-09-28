@@ -77,7 +77,7 @@ public class ReviewInternalService {
 
         movieService.existsByMovieId(movieId);
 
-        Review review = reviewRepository.findByReviewIdAndDeletedFalse(reviewId)
+        Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
 
         if (!review.getMovie().getId().equals(movieId)) {
