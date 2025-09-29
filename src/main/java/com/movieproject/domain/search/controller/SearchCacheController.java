@@ -30,7 +30,7 @@ public class SearchCacheController {
     ) {
         searchInternalCacheService.recordSearch(title);
         Page<MovieSearchResponse> resultPage = searchCacheService.searchTitle(title, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 제목 검색 결과");
+        return ApiResponse.pageSuccess(resultPage, "영화 제목 검색 결과 v2");
     }
 
     @GetMapping("/actors/search")
@@ -41,7 +41,7 @@ public class SearchCacheController {
     ) {
         searchInternalCacheService.recordSearch(name);
         Page<MovieSearchResponse> resultPage = searchCacheService.searchActor(name, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과");
+        return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과 v2");
     }
 
     @GetMapping("/directors/search")
@@ -52,11 +52,11 @@ public class SearchCacheController {
     ) {
         searchInternalCacheService.recordSearch(name);
         Page<MovieSearchResponse> resultPage = searchCacheService.searchDirector(name, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 감독 검색 결과");
+        return ApiResponse.pageSuccess(resultPage, "영화 감독 검색 결과 v2");
     }
 
     @GetMapping("/search/popular")
     public ResponseEntity<ApiResponse<List<String>>> searchPopular() {
-        return ApiResponse.success(searchCacheService.getPopularSearches(), "인기 검색어 조회");
+        return ApiResponse.success(searchCacheService.getPopularSearches(), "인기 검색어 조회 v2");
     }
 }

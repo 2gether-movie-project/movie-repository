@@ -27,7 +27,7 @@ public class SearchController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         Page<MovieSearchResponse> resultPage = searchService.searchTitle(title, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 제목 검색 결과");
+        return ApiResponse.pageSuccess(resultPage, "영화 제목 검색 결과 v1");
     }
 
     @GetMapping("/actors/search")
@@ -37,7 +37,7 @@ public class SearchController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         Page<MovieSearchResponse> resultPage = searchService.searchActor(name, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과");
+        return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과 v1");
     }
 
     @GetMapping("/directors/search")
@@ -47,11 +47,11 @@ public class SearchController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         Page<MovieSearchResponse> resultPage = searchService.searchDirector(name, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 감독 검색 결과");
+        return ApiResponse.pageSuccess(resultPage, "영화 감독 검색 결과 v1");
     }
 
     @GetMapping("/search/popular")
     public ResponseEntity<ApiResponse<List<String>>> searchPopular() {
-        return ApiResponse.success(searchService.getPopularSearches(), "인기 검색어 조회");
+        return ApiResponse.success(searchService.getPopularSearches(), "인기 검색어 조회 v1");
     }
 }

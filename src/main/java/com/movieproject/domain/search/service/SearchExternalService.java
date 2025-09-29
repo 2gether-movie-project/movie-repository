@@ -25,7 +25,7 @@ public class SearchExternalService {
     private final ActorInternalService internalActorService;
     private final SearchRepository searchRepository;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     protected void recordSearch(String keyword) {
         String normalizedKeyword = keyword.toLowerCase(); // 소문자 변환
         // 존재하면 count를 증가시키는 JPQL update
@@ -50,7 +50,7 @@ public class SearchExternalService {
     }
 
     //영화 제목 검색
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<MovieSearchResponse> searchTitle(String keyword, int page, int size) {
         validateSearch(keyword); //유효성 검증
         recordSearch(keyword); // 검색 기록 저장
@@ -58,7 +58,7 @@ public class SearchExternalService {
     }
 
     //영화 배우 검색
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<MovieSearchResponse> searchActor(String keyword, int page, int size) {
         validateSearch(keyword);
         recordSearch(keyword);
@@ -66,7 +66,7 @@ public class SearchExternalService {
     }
 
     //영화 감독 검색
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<MovieSearchResponse> searchDirector(String keyword, int page, int size) {
         validateSearch(keyword);
         recordSearch(keyword);
@@ -74,7 +74,7 @@ public class SearchExternalService {
     }
 
     //인기검색어 조회(상위 10개)
-    @Transactional(readOnly = true)
+    @Transactional
     public List<String> getPopularSearches() {
         return searchRepository.findTop10ByOrderByCountDesc().stream().map(Search::getOriginalKeyword).toList();
     }

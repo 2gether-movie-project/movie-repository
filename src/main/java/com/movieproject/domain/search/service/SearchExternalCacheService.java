@@ -23,25 +23,25 @@ public class SearchExternalCacheService {
     private final SearchRepository searchRepository;
 
     @Cacheable(value = "searchTitleCache", key = "#keyword + '_' + #page + '_' + #size")
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<MovieSearchResponse> searchTitle(String keyword, int page, int size) {
         return internalMovieService.searchByKeyword(keyword, page, size);
     }
 
     @Cacheable(value = "searchActorCache", key = "#keyword + '_' + #page + '_' + #size")
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<MovieSearchResponse> searchActor(String keyword, int page, int size) {
         return internalActorService.searchByKeyword(keyword, page, size);
     }
 
     @Cacheable(value = "searchDirectorCache", key = "#keyword + '_' + #page + '_' + #size")
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<MovieSearchResponse> searchDirector(String keyword, int page, int size) {
         return internalDirectorService.searchByKeyword(keyword, page, size);
     }
 
     @Cacheable(value = "popularSearchCache", key = "'top10'")
-    @Transactional(readOnly = true)
+    @Transactional
     public List<String> getPopularSearches() {
         return searchRepository.findTop10ByOrderByCountDesc()
                 .stream()
