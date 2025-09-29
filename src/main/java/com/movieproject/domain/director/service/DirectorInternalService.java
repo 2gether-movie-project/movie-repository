@@ -12,6 +12,8 @@ import com.movieproject.domain.director.repository.DirectorRepository;
 import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
 import com.movieproject.domain.movie.entity.Movie;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +63,8 @@ public class DirectorInternalService {
         return PageResponse.fromPage(dtoPage);
     }
 
+
+    @Cacheable(value = "directorDetailCache", key = "#directorId")
     @Transactional(readOnly = true)
     public DirectorDetailResponse getDirectorDetail(Long directorId) {
 
@@ -86,6 +90,7 @@ public class DirectorInternalService {
 
     }
 
+    @CacheEvict(value = "directorDetailCache", key = "#directorId")
     @Transactional
     public void deleteDirector(Long directorId) {
         Director director = directorRepository.findById(directorId)
