@@ -40,6 +40,13 @@ public class MovieController {
         return ApiResponse.pageSuccess(moviesPage, "영화 목록 조회가 완료되었습니다.");
     }
 
+    @GetMapping("/v2/{movieId}")
+    public ResponseEntity<ApiResponse<MovieResponseDto>> getMovieInfoV2(
+            @PathVariable Long movieId) {
+        MovieResponseDto responseDto = movieInternalService.getMovieInfoV2(movieId);
+        return ApiResponse.success(responseDto, "영화 상세 정보(캐시) 조회가 완료되었습니다.");
+    }
+
     @PutMapping("/{movieId}")
     public ResponseEntity<ApiResponse<MovieResponseDto>> updateMovie(
             @PathVariable Long movieId,

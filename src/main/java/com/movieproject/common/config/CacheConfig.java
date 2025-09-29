@@ -22,6 +22,7 @@ public class CacheConfig {
                 "searchActorCache",
                 "searchDirectorCache",
                 "popularSearchCache",
+                "movieDetailsCache",
                 "topReviewPageCache",
                 "myReviewPageCache"
         );

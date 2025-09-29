@@ -86,6 +86,26 @@ class MovieInternalServiceTest {
     }
 
     @Test
+    @DisplayName("영화 상세 정보 조회(v2) 성공 테스트")
+    void getMovieInfoV2_success() {
+        // given
+        Long movieId = 1L;
+        Director testDirector = Director.of("테스트 감독", "KOREA", LocalDate.now());
+        Movie mockMovie = Movie.builder().title("테스트 영화").director(testDirector).build();
+        ReflectionTestUtils.setField(mockMovie, "id", movieId);
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
+
+        // when
+        MovieResponseDto responseDto = movieInternalService.getMovieInfoV2(movieId);
+
+        // then
+        assertThat(responseDto).isNotNull();
+        assertThat(responseDto.movieId()).isEqualTo(movieId);
+        assertThat(responseDto.title()).isEqualTo("테스트 영화");
+    }
+
+    @Test
     @DisplayName("영화 목록 조회 (페이징) 성공 테스트")
     void getMovies_success() {
         // given

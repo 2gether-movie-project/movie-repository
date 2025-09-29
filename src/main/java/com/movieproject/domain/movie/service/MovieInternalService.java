@@ -11,6 +11,7 @@ import com.movieproject.domain.movie.entity.Movie;
 import com.movieproject.domain.movie.exception.MovieErrorCode;
 import com.movieproject.domain.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,13 @@ public class MovieInternalService {
     }
 
     public MovieResponseDto getMovieInfo(Long movieId) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND));
+        return MovieResponseDto.from(movie);
+    }
+
+    @Cacheable(value = "movieDetailsCache", key = "#movieId", unless = "#result == null")
+    public MovieResponseDto getMovieInfoV2(Long movieId) {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND));
         return MovieResponseDto.from(movie);
