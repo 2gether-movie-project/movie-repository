@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
-    @Query("SELECT rl FROM ReviewLike rl WHERE rl.review.reviewId = :reviewId AND rl.user.userId = :userId")
+    @Query("SELECT COUNT(rl) > 0 FROM ReviewLike rl WHERE rl.review.reviewId = :reviewId AND rl.user.userId = :userId")
     boolean existsByReviewIdAndUserId(@Param("reviewId") Long reviewId, @Param("userId") Long userId);
 
     @Query("SELECT rl FROM ReviewLike rl WHERE rl.review.reviewId = :reviewId AND rl.user.userId = :userId")

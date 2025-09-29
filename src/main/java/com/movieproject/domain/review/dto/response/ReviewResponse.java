@@ -13,6 +13,7 @@ public record ReviewResponse(
         BigDecimal rating,
         MovieInReviewResponse movie,
         UserInReviewResponseDto user,
+        int likeCount,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -23,6 +24,7 @@ public record ReviewResponse(
                 review.getRating(),
                 MovieInReviewResponse.from(review.getMovie()),
                 UserInReviewResponseDto.from(review.getUser()),
+                review.getLikeCount(),
                 review.getCreatedAt(),
                 review.getUpdatedAt()
         );
