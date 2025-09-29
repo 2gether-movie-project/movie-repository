@@ -22,7 +22,9 @@ public class CacheConfig {
                 "searchActorCache",
                 "searchDirectorCache",
                 "popularSearchCache",
-                "movieDetailsCache"
+                "movieDetailsCache",
+                "topReviewPageCache",
+                "myReviewPageCache"
         );
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .expireAfterWrite(10, TimeUnit.MINUTES) // TTL
