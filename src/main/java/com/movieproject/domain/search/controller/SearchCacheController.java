@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v2/api")
+@RequestMapping("/api/v2")
 public class SearchCacheController {
     private final SearchExternalCacheService searchCacheService;
     private final SearchInternalCacheService searchInternalCacheService;
