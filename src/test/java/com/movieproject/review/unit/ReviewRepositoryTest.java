@@ -60,7 +60,7 @@ class ReviewRepositoryTest {
 
     @Test
     @DisplayName("삭제된 리뷰 조회 여부 확인")
-    void findAllByMovieId_NotIncludeDeletedReview() {
+    void findAllByMovieId_notIncludeDeletedReview() {
 
         // given
         Movie movie = createMovie();

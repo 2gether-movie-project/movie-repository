@@ -12,6 +12,7 @@ public record ReviewWithUserResponse(
         String content,
         BigDecimal rating,
         UserInReviewResponseDto user,
+        int likeCount,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -21,6 +22,7 @@ public record ReviewWithUserResponse(
                 review.getContent(),
                 review.getRating(),
                 UserInReviewResponseDto.from(review.getUser()),
+                review.getLikeCount(),
                 review.getCreatedAt(),
                 review.getUpdatedAt()
         );

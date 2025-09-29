@@ -12,6 +12,7 @@ public record ReviewWithMovieResponse(
         String content,
         BigDecimal rating,
         MovieInReviewResponse movie,
+        int likeCount,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -21,6 +22,7 @@ public record ReviewWithMovieResponse(
                 review.getContent(),
                 review.getRating(),
                 MovieInReviewResponse.from(review.getMovie()),
+                review.getLikeCount(),
                 review.getCreatedAt(),
                 review.getUpdatedAt()
         );

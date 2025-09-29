@@ -156,7 +156,7 @@ public class ReviewServiceTest {
 
     @Test
     @DisplayName("리뷰 수정 실패 - 리뷰가 존재하지 않는 경우")
-    void updateReview_ReviewNotFound() {
+    void updateReview_reviewNotFound() {
 
         // given
         ReviewRequest.Update request = new ReviewRequest.Update("수정 내용", new BigDecimal("4.9"));
@@ -170,7 +170,7 @@ public class ReviewServiceTest {
 
     @Test
     @DisplayName("리뷰 수정 실패 - 작성자가 아닌 경우")
-    void updateReview_UserIsNotAuthor() {
+    void updateReview_userIsNotAuthor() {
 
         // given
         Long movieId = 1L;
