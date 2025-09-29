@@ -14,6 +14,7 @@ import com.movieproject.domain.director.exception.DirectorException;
 import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -59,6 +60,7 @@ public class ActorInternalService {
         return PageResponse.fromPage(dtoPage);
     }
 
+    @Cacheable(value = "actorDetailCache", key = "#actorId")
     @Transactional(readOnly = true)
     public ActorDetailResponse getActorDetail(Long actorId) {
         Actor actor = actorRepository.findByIdWithMovies(actorId)
