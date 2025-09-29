@@ -1,18 +1,23 @@
 package com.movieproject.domain.movie.entity;
 
 import com.movieproject.common.entity.BaseEntity;
+import com.movieproject.domain.cast.entity.Cast;
 import com.movieproject.domain.director.entity.Director;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("is_deleted = false")
 public class Movie extends BaseEntity {
 
     @Id
@@ -41,6 +46,9 @@ public class Movie extends BaseEntity {
     @JoinColumn(name = "director_id", nullable = false)
     private Director director;
 
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    private List<Cast> castMembers = new ArrayList<>();
+
     @Builder
     private Movie(String title, LocalDate releaseDate, Integer duration, String nationality, String genre, Director director) {
         this.title = title;
@@ -50,5 +58,13 @@ public class Movie extends BaseEntity {
         this.genre = genre;
         this.rating = 0.0;
         this.director = director;
+    }
+
+    public void update(String title, LocalDate releaseDate, Integer duration, String nationality, String genre) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.nationality = nationality;
+        this.genre = genre;
     }
 }
