@@ -13,6 +13,10 @@ import com.movieproject.domain.review.repository.ReviewRepository;
 import com.movieproject.domain.user.entity.User;
 import com.movieproject.domain.user.service.external.UserExternalService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,12 +24,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewInternalService {
 
     private final ReviewRepository reviewRepository;
     private final MovieExternalService movieService;
     private final UserExternalService userService;
 
+    @Caching(evict = {
+            @CacheEvict(value = "topReviewPageCache", key = "#movieId"),
+            @CacheEvict(value = "myReviewPageCache", key = "#userId")
+    })
     @Transactional
     public ReviewResponse createReview(Long movieId, ReviewRequest.Create request, Long userId) {
         Movie movie = movieService.findMovieById(movieId);
@@ -47,15 +56,22 @@ public class ReviewInternalService {
         return ReviewResponse.from(savedReview);
     }
 
+    @Cacheable(value = "topReviewPageCache", key = "#movieId", condition = "#pageable.pageNumber == 0")
     @Transactional(readOnly = true)
     public Page<ReviewWithUserResponse> getReviews(Long movieId, Pageable pageable) {
         movieService.existsByMovieId(movieId);
+
+        log.info("DB에서 리뷰 조회중: movieId={}, page={}", movieId, pageable.getPageNumber()); // 로그 최초 1회만 출력 시 캐시 적용 성공
 
         Page<Review> reviewPage = reviewRepository.findAllByMovieId(movieId, pageable);
 
         return reviewPage.map(ReviewWithUserResponse::from);
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "topReviewPageCache", key = "#movieId"),
+            @CacheEvict(value = "myReviewPageCache", key = "#userId")
+    })
     @Transactional
     public ReviewResponse updateReview(Long movieId, Long reviewId, ReviewRequest.Update request, Long userId) {
 
@@ -65,6 +81,10 @@ public class ReviewInternalService {
         return ReviewResponse.from(review);
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "topReviewPageCache", key = "#movieId"),
+            @CacheEvict(value = "myReviewPageCache", key = "#userId")
+    })
     @Transactional
     public void deleteReview(Long movieId, Long reviewId, Long userId) {
 
@@ -91,6 +111,7 @@ public class ReviewInternalService {
         return review;
     }
 
+    @Cacheable(value = "myReviewPageCache", key = "#userId", condition = "#pageable.pageNumber == 0")
     @Transactional(readOnly = true)
     public Page<ReviewWithMovieResponse> getMyReviews(Long userId, Pageable pageable) {
         Page<Review> myReviewPage = reviewRepository.findAllByUserId(userId, pageable);
