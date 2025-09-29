@@ -135,19 +135,28 @@ class MovieInternalServiceTest {
 
     @Test
     @DisplayName("영화 삭제 성공 테스트")
-    void deleteMovie_success() {
+    void deleteMovie_softDelete_success() {
         // given
         Long movieId = 1L;
-        Movie mockMovie = mock(Movie.class);
 
-        when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
+        Director director = Director.of("감독", "국적", LocalDate.now());
+        Movie realMovie = Movie.builder()
+                .title("테스트 영화")
+                .director(director)
+                .build();
+
+        assertThat(realMovie.isDeleted()).isFalse();
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(realMovie));
 
         // when
         movieInternalService.deleteMovie(movieId);
 
         // then
         verify(movieRepository, times(1)).findById(movieId);
-        verify(mockMovie, times(1)).delete();
+
+        assertThat(realMovie.isDeleted()).isTrue();
+        assertThat(realMovie.getDeletedAt()).isNotNull();
     }
 
     @Test
@@ -155,7 +164,7 @@ class MovieInternalServiceTest {
     void deleteMovie_notFound_fail() {
         // given
         Long nonExistentMovieId = 999L;
-        when(movieRepository.existsById(nonExistentMovieId)).thenReturn(false);
+        when(movieRepository.findById(nonExistentMovieId)).thenReturn(Optional.empty());
 
         // when & then
         GlobalException exception = assertThrows(GlobalException.class, () -> {
@@ -163,6 +172,5 @@ class MovieInternalServiceTest {
         });
 
         assertThat(exception.getErrorCode()).isEqualTo(MovieErrorCode.MOVIE_NOT_FOUND);
-        verify(movieRepository, never()).deleteById(any(Long.class));
     }
 }
