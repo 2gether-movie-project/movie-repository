@@ -24,7 +24,7 @@ public class ActorDummyLoader implements CommandLineRunner {
     public void run(String... args) {
         Faker faker = new Faker(new Locale("ko"));
         List<Actor> batch = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 50000; i++) {
             Actor actor = Actor.of(
                     faker.name().fullName(),
                     faker.country().name(),

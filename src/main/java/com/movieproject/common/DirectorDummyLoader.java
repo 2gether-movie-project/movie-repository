@@ -24,7 +24,7 @@ public class DirectorDummyLoader implements CommandLineRunner {
     public void run(String... args) {
         Faker faker = new Faker(new Locale("ko")); // 한국어 이름
         List<Director> batch = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 50000; i++) {
             Director director = Director.of(
                     faker.name().fullName(),
                     faker.country().name(),
