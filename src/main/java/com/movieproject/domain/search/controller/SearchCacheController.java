@@ -3,7 +3,8 @@ package com.movieproject.domain.search.controller;
 import com.movieproject.common.response.ApiResponse;
 import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
-import com.movieproject.domain.search.service.SearchExternalService;
+import com.movieproject.domain.search.service.SearchExternalCacheService;
+import com.movieproject.domain.search.service.SearchInternalCacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
-public class SearchController {
-    private final SearchExternalService searchService;
+@RequestMapping("/api/v2")
+public class SearchCacheController {
+    private final SearchExternalCacheService searchCacheService;
+    private final SearchInternalCacheService searchInternalCacheService;
 
     @GetMapping("/movies/search")
     public ResponseEntity<ApiResponse<PageResponse<MovieSearchResponse>>> searchMovies(
@@ -26,8 +28,9 @@ public class SearchController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        Page<MovieSearchResponse> resultPage = searchService.searchTitle(title, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 제목 검색 결과 v1");
+        searchInternalCacheService.recordSearch(title);
+        Page<MovieSearchResponse> resultPage = searchCacheService.searchTitle(title, page, size);
+        return ApiResponse.pageSuccess(resultPage, "영화 제목 검색 결과 v2");
     }
 
     @GetMapping("/actors/search")
@@ -36,8 +39,9 @@ public class SearchController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        Page<MovieSearchResponse> resultPage = searchService.searchActor(name, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과 v1");
+        searchInternalCacheService.recordSearch(name);
+        Page<MovieSearchResponse> resultPage = searchCacheService.searchActor(name, page, size);
+        return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과 v2");
     }
 
     @GetMapping("/directors/search")
@@ -46,12 +50,13 @@ public class SearchController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        Page<MovieSearchResponse> resultPage = searchService.searchDirector(name, page, size);
-        return ApiResponse.pageSuccess(resultPage, "영화 감독 검색 결과 v1");
+        searchInternalCacheService.recordSearch(name);
+        Page<MovieSearchResponse> resultPage = searchCacheService.searchDirector(name, page, size);
+        return ApiResponse.pageSuccess(resultPage, "영화 감독 검색 결과 v2");
     }
 
     @GetMapping("/search/popular")
     public ResponseEntity<ApiResponse<List<String>>> searchPopular() {
-        return ApiResponse.success(searchService.getPopularSearches(), "인기 검색어 조회 v1");
+        return ApiResponse.success(searchCacheService.getPopularSearches(), "인기 검색어 조회 v2");
     }
 }
