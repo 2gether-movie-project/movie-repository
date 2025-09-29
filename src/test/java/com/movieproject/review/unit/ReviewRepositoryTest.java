@@ -50,7 +50,7 @@ class ReviewRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 10);
 
         // when
-        Page<Review> reviewPage = reviewRepository.findAllByMovieId(movie.getMovieid(), pageable);
+        Page<Review> reviewPage = reviewRepository.findAllByMovieId(movie.getMovieId(), pageable);
 
         // then
         assertThat(reviewPage).isNotNull();
@@ -71,7 +71,7 @@ class ReviewRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 10);
 
         // when
-        Page<Review> reviewPage = reviewRepository.findAllByMovieId(movie.getMovieid(), pageable);
+        Page<Review> reviewPage = reviewRepository.findAllByMovieId(movie.getMovieId(), pageable);
 
         // then
         assertThat(reviewPage.getContent()).isEmpty();
@@ -87,7 +87,7 @@ class ReviewRepositoryTest {
         Review review = reviewRepository.save(createReview(movie, user));
 
         // when
-        boolean exists = reviewRepository.existsByMovieIdAndUserId(movie.getMovieid(), user.getUserId());
+        boolean exists = reviewRepository.existsByMovieIdAndUserId(movie.getMovieId(), user.getUserId());
 
         // then
         assertThat(exists).isTrue();

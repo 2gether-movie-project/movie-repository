@@ -100,7 +100,7 @@ public class ReviewInternalService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
 
-        if (!review.getMovie().getMovieid().equals(movieId)) {
+        if (!review.getMovie().getMovieId().equals(movieId)) {
             throw new ReviewException(ReviewErrorCode.REVIEW_MOVIE_MISMATCH);
         }
 

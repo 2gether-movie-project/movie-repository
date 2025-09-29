@@ -12,7 +12,7 @@ public record MovieListDto(
 ) {
     public static MovieListDto from(Movie movie) {
         return new MovieListDto(
-                movie.getMovieid(),
+                movie.getMovieId(),
                 movie.getTitle(),
                 movie.getReleaseDate(),
                 movie.getRating()

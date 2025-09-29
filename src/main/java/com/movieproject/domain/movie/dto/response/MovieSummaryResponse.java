@@ -14,7 +14,7 @@ public record MovieSummaryResponse(
 
     public static MovieSummaryResponse from(Movie movie) {
         return new MovieSummaryResponse(
-                movie.getMovieid(),
+                movie.getMovieId(),
                 movie.getTitle(),
                 movie.getReleaseDate(),
                 movie.getGenre()

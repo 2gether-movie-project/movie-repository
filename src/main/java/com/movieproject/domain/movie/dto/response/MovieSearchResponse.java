@@ -15,6 +15,6 @@ public record MovieSearchResponse(Long id, String title, LocalDate releaseDate, 
 
         String genreName = movie.getGenre() != null ? movie.getGenre() : null;
 
-        return new MovieSearchResponse(movie.getMovieid(), movie.getTitle(), movie.getReleaseDate(), directorName, actorNames, genreName, movie.getRating());
+        return new MovieSearchResponse(movie.getMovieId(), movie.getTitle(), movie.getReleaseDate(), directorName, actorNames, genreName, movie.getRating());
     }
 }

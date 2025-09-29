@@ -8,7 +8,7 @@ public record MovieInReviewResponse(
 ) {
     public static MovieInReviewResponse from(Movie movie) {
         return new MovieInReviewResponse(
-                movie.getMovieid(),
+                movie.getMovieId(),
                 movie.getTitle()
         );
     }

@@ -60,7 +60,7 @@ public class CastInternalSericeTest {
                 .director(null) // 감독은 테스트 편의상 null 처리
                 .build();
 
-        CastRequest request = new CastRequest(movie.getMovieid(), actor.getActorId(), CastRole.LEAD);
+        CastRequest request = new CastRequest(movie.getMovieId(), actor.getActorId(), CastRole.LEAD);
 
         when(actorExternalService.findActorById(request.actorId())).thenReturn(actor);
         when(movieExternalService.findMovieById(request.movieId())).thenReturn(movie);
