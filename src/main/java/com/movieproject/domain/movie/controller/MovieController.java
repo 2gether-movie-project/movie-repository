@@ -43,7 +43,7 @@ public class MovieController {
     @GetMapping("/v2/{movieId}")
     public ResponseEntity<ApiResponse<MovieResponseDto>> getMovieInfoV2(
             @PathVariable Long movieId) {
-        MovieResponseDto responseDto = movieInternalService.getMovieInfoV2(movieId); // Internal의 v2 메서드 호출
+        MovieResponseDto responseDto = movieInternalService.getMovieInfoV2(movieId);
         return ApiResponse.success(responseDto, "영화 상세 정보(캐시) 조회가 완료되었습니다.");
     }
 
