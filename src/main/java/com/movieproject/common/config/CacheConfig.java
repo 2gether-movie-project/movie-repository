@@ -21,7 +21,9 @@ public class CacheConfig {
                 "searchTitleCache",
                 "searchActorCache",
                 "searchDirectorCache",
-                "popularSearchCache"
+                "popularSearchCache",
+                "topReviewPageCache",
+                "myReviewPageCache"
         );
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .expireAfterWrite(10, TimeUnit.MINUTES) // TTL
