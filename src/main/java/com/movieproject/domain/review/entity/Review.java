@@ -36,6 +36,9 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(nullable = false)
+    private int likeCount = 0;
+
     @Builder
     public Review(String content, BigDecimal rating, Movie movie, User user) {
         this.content = content;
@@ -49,5 +52,13 @@ public class Review extends BaseEntity {
         if (rating != null) {
             this.rating = rating;
         }
+    }
+
+    public void incrementLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decrementLikeCount() {
+        this.likeCount = Math.max(0, this.likeCount - 1);
     }
 }
