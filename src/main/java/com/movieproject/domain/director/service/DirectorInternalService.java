@@ -76,6 +76,7 @@ public class DirectorInternalService {
         return directorDetailResponse;
     }
 
+    @CacheEvict(value = "directorDetailCache", key = "#directorId")
     @Transactional
     public DirectorResponse updateDirector(Long directorId, DirectorUpdateRequest directorUpdateRequest) {
 
