@@ -12,6 +12,7 @@ import com.movieproject.domain.review.repository.ReviewRepository;
 import com.movieproject.domain.review.service.ReviewInternalService;
 import com.movieproject.domain.user.entity.User;
 import com.movieproject.domain.user.service.external.UserExternalService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,7 +50,8 @@ public class ReviewServiceTest {
     private UserExternalService userService;
 
     @Test
-    void createReview_리뷰_생성_성공() {
+    @DisplayName("리뷰 생성 성공")
+    void createReview() {
 
         //given
         Long movieId = 1L;
@@ -79,7 +81,8 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void getReviews_리뷰_목록_조회_성공() {
+    @DisplayName("리뷰 목록 조회 성공")
+    void getReviews() {
 
         // given
         Long movieId = 1L;
@@ -119,7 +122,8 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void updateReview_리뷰_수정_성공() {
+    @DisplayName("리뷰 수정 성공")
+    void updateReview() {
 
         // given
         Long movieId = 1L;
@@ -139,7 +143,7 @@ public class ReviewServiceTest {
                 .build();
         ReflectionTestUtils.setField(review, "reviewId", reviewId);
 
-        when(reviewRepository.findByReviewIdAndDeletedFalse(anyLong())).thenReturn(Optional.of(review));
+        when(reviewRepository.findById(anyLong())).thenReturn(Optional.of(review));
 
         // when
         ReviewResponse response = reviewService.updateReview(movieId, reviewId, request, userId);
@@ -151,12 +155,13 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void updateReview_리뷰가_존재하지_않는_경우() {
+    @DisplayName("리뷰 수정 실패 - 리뷰가 존재하지 않는 경우")
+    void updateReview_ReviewNotFound() {
 
         // given
         ReviewRequest.Update request = new ReviewRequest.Update("수정 내용", new BigDecimal("4.9"));
 
-        when(reviewRepository.findByReviewIdAndDeletedFalse(anyLong())).thenReturn(Optional.empty());
+        when(reviewRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // when & then
         assertThrows(ReviewException.class,
@@ -164,7 +169,8 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void updateReview_작성자가_아닌_경우() {
+    @DisplayName("리뷰 수정 실패 - 작성자가 아닌 경우")
+    void updateReview_UserIsNotAuthor() {
 
         // given
         Long movieId = 1L;
@@ -184,7 +190,7 @@ public class ReviewServiceTest {
                 .build();
         ReflectionTestUtils.setField(review, "reviewId", reviewId);
 
-        when(reviewRepository.findByReviewIdAndDeletedFalse(anyLong())).thenReturn(Optional.of(review));
+        when(reviewRepository.findById(anyLong())).thenReturn(Optional.of(review));
 
         // when & then
         assertThrows(ReviewException.class,
@@ -192,7 +198,8 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void deleteReview_댓글_삭제_성공() {
+    @DisplayName("리뷰 삭제 성공")
+    void deleteReview() {
 
         // given
         Long movieId = 1L;
@@ -210,7 +217,7 @@ public class ReviewServiceTest {
                 .user(user)
                 .build();
 
-        when(reviewRepository.findByReviewIdAndDeletedFalse(reviewId)).thenReturn(Optional.of(review));
+        when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
 
         // when
         reviewService.deleteReview(movieId, reviewId, userId);
@@ -221,7 +228,8 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void getMyReviews_내_리뷰_목록_조회_성공() {
+    @DisplayName("내가 작성한 리뷰 목록 조회 성공")
+    void getMyReviews() {
 
         // given
         Long userId = 2L;

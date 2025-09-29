@@ -20,8 +20,9 @@ public class MovieExternalService {
                 .orElseThrow(() -> new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND));
     }
 
-    public boolean existsByMovieId(Long movieId) {
-        return movieRepository.existsById(movieId);
+    public void existsByMovieId(Long movieId) {
+        if (!movieRepository.existsById(movieId)) {
+            throw new GlobalException(MovieErrorCode.MOVIE_NOT_FOUND);
+        }
     }
-
 }
