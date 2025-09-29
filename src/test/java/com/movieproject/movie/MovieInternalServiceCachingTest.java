@@ -52,7 +52,7 @@ class MovieInternalServiceCachingTest {
                 .genre("테스트 장르")
                 .build();
         Movie movie = movieRepository.save(movieToSave);
-        Long movieId = movie.getId();
+        Long movieId = movie.getMovieid();
 
         // when & then
         // 1. 첫 번째 호출

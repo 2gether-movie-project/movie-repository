@@ -43,7 +43,7 @@ class MovieExternalServiceTest {
 
         // then
         assertThat(foundMovie).isNotNull();
-        assertThat(foundMovie.getId()).isEqualTo(movieId);
+        assertThat(foundMovie.getMovieid()).isEqualTo(movieId);
     }
 
     @Test
