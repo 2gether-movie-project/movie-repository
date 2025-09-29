@@ -17,7 +17,11 @@ public class CacheConfig {
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager(
                 "directorDetailCache",  // 여기에 사용할 캐시 이름 넣으면 됩니다
-                "actorDetailCache"
+                "actorDetailCache",
+                "searchTitleCache",
+                "searchActorCache",
+                "searchDirectorCache",
+                "popularSearchCache"
         );
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .expireAfterWrite(10, TimeUnit.MINUTES) // TTL
