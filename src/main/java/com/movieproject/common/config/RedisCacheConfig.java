@@ -55,6 +55,7 @@ public class RedisCacheConfig {
 
         Map<String, RedisCacheConfiguration> perCache = new HashMap<>();
         perCache.put("actorDetailCache", base.entryTtl(Duration.ofSeconds(30)));
+        perCache.put("movieDetailsCache", base.entryTtl(Duration.ofMinutes(10)));
 
         return RedisCacheManager.builder(cf)
                 .cacheDefaults(base)

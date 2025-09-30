@@ -27,7 +27,7 @@ public class MovieController {
         return ApiResponse.created(responseDto, "영화가 성공적으로 등록되었습니다.");
     }
 
-    @GetMapping("/{movieId}")
+    @GetMapping("/v1/{movieId}")
     public ResponseEntity<ApiResponse<MovieResponseDto>> getMovieInfo(
             @PathVariable Long movieId) {
         MovieResponseDto responseDto = movieInternalService.getMovieInfo(movieId);
