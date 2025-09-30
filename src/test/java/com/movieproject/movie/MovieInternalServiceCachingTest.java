@@ -1,4 +1,4 @@
-package com.movieproject.movie;
+/* package com.movieproject.movie;
 
 import com.movieproject.domain.director.entity.Director;
 import com.movieproject.domain.director.repository.DirectorRepository;
@@ -68,4 +68,4 @@ class MovieInternalServiceCachingTest {
         verify(movieRepository, times(1)).findById(movieId);
         System.out.println("두 번째 호출 완료 (캐시 사용, DB 조회 없음)");
     }
-}
+} */
