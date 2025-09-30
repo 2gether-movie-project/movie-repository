@@ -56,6 +56,10 @@ public class RedisCacheConfig {
         Map<String, RedisCacheConfiguration> perCache = new HashMap<>();
         perCache.put("actorDetailCache", base.entryTtl(Duration.ofSeconds(30)));
 
+        perCache.put("searchTitleCache", base.entryTtl(Duration.ofSeconds(30)));
+        perCache.put("searchActorCache", base.entryTtl(Duration.ofSeconds(30)));
+        perCache.put("searchDirectorCache", base.entryTtl(Duration.ofSeconds(30)));
+
         return RedisCacheManager.builder(cf)
                 .cacheDefaults(base)
                 .withInitialCacheConfigurations(perCache)
