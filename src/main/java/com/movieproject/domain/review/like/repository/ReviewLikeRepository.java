@@ -14,4 +14,6 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
     @Query("SELECT rl FROM ReviewLike rl WHERE rl.review.reviewId = :reviewId AND rl.user.userId = :userId")
     Optional<ReviewLike> findByReviewIdAndUserId(Long reviewId, Long userId);
+
+    long countByReview_ReviewId(Long reviewId);
 }
