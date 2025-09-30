@@ -20,3 +20,12 @@ jwt:
   secret: "xt/S0ffqB5ldIkAWtJrB1PfcuBf17La0xPNN/l6oWIQXSOYHeOxMYXMgJEq+vlIytCnImotMBDKyHThFL8jVQg=="
   access-token-expiration: 1800000  # 30분
   refresh-token-expiration: 1209600000  # 2주
+
+  # Redis 설정 추가
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
+  cache:
+    type: redis # 사용할 캐시 타입을 redis로 명시
