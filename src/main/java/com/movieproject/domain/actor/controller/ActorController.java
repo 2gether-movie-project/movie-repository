@@ -43,8 +43,17 @@ public class ActorController {
     }
 
     //배우 상세조회
-    @GetMapping("/{actorId}")
+    @GetMapping("/v1/{actorId}")
     public ResponseEntity<ApiResponse<ActorDetailResponse>> getDirectorDetail(
+            @PathVariable Long actorId
+    ) {
+        ActorDetailResponse response = actorInternalService.getActorDetail(actorId);
+        return ApiResponse.success(response, "배우 상세 정보가 성공적으로 조회되었습니다.");
+    }
+
+    //배우 상세조회
+    @GetMapping("/v2/{actorId}")
+    public ResponseEntity<ApiResponse<ActorDetailResponse>> getDirectorDetailByRedis(
             @PathVariable Long actorId
     ) {
         ActorDetailResponse response = actorInternalService.getActorDetail(actorId);

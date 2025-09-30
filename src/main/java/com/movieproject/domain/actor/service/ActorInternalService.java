@@ -61,7 +61,7 @@ public class ActorInternalService {
         return PageResponse.fromPage(dtoPage);
     }
 
-    @Cacheable(value = "actorDetailCache", key = "#actorId")
+    @Cacheable(cacheNames = "actorDetailCache", key = "#actorId")
     @Transactional(readOnly = true)
     public ActorDetailResponse getActorDetail(Long actorId) {
         Actor actor = actorRepository.findByIdWithMovies(actorId)
@@ -72,7 +72,7 @@ public class ActorInternalService {
         return actorDetailResponse;
     }
 
-    @CacheEvict(value = "actorDetailCache", key = "#actorId")
+    @CacheEvict(cacheNames = "actorDetailCache", key = "#actorId")
     @Transactional
     public ActorResponse updateActor(Long actorId, ActorUpdateRequest actorUpdateRequest) {
 
@@ -87,7 +87,7 @@ public class ActorInternalService {
 
     }
 
-    @CacheEvict(value = "actorDetailCache", key = "#actorId")
+    @CacheEvict(cacheNames = "actorDetailCache", key = "#actorId")
     @Transactional
     public void deleteActor(Long actorId) {
         Actor actor = actorRepository.findById(actorId)

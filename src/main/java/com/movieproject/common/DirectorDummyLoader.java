@@ -39,6 +39,6 @@ public class DirectorDummyLoader implements CommandLineRunner {
                 System.out.println(i + "명의 감독이 저장되었습니다.");
             }
         }
-        System.out.println("✅ 10000명의 랜덤 감독 데이터 삽입 완료!");
+        System.out.println("50000명의 랜덤 감독 데이터 삽입 완료!");
     }
 }
