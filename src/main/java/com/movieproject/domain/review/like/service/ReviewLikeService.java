@@ -9,6 +9,8 @@ import com.movieproject.domain.review.service.ReviewExternalService;
 import com.movieproject.domain.user.entity.User;
 import com.movieproject.domain.user.service.external.UserExternalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,10 @@ public class ReviewLikeService {
     private final ReviewExternalService reviewService;
     private final UserExternalService userService;
 
+    @Caching(evict = {
+            @CacheEvict(value = "topReviewPageCache", allEntries = true),
+            @CacheEvict(value = "myReviewPageCache", key = "#userId")
+    })
     @Transactional
     public void likeReview(Long reviewId, Long userId) {
         Review review = reviewService.findByReviewId(reviewId);
@@ -38,6 +44,10 @@ public class ReviewLikeService {
         review.incrementLikeCount();
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "topReviewPageCache", allEntries = true),
+            @CacheEvict(value = "myReviewPageCache", key = "#userId")
+    })
     @Transactional
     public void unlikeReview(Long reviewId, Long userId) {
         Review review = reviewService.findByReviewId(reviewId);

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-        name = "cast",
+        name = "casts",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"movie_id", "actor_id"})
         }

@@ -14,6 +14,7 @@ import com.movieproject.domain.director.exception.DirectorException;
 import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -71,6 +72,7 @@ public class ActorInternalService {
         return actorDetailResponse;
     }
 
+    @CacheEvict(value = "actorDetailCache", key = "#actorId")
     @Transactional
     public ActorResponse updateActor(Long actorId, ActorUpdateRequest actorUpdateRequest) {
 
@@ -85,6 +87,7 @@ public class ActorInternalService {
 
     }
 
+    @CacheEvict(value = "actorDetailCache", key = "#actorId")
     @Transactional
     public void deleteActor(Long actorId) {
         Actor actor = actorRepository.findById(actorId)

@@ -3,6 +3,7 @@ package com.movieproject.domain.search.service;
 import com.movieproject.domain.search.entity.Search;
 import com.movieproject.domain.search.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,6 +18,7 @@ public class SearchInternalCacheService {
     //새로운 트랙잭션 생성
     @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @CacheEvict(value = "popularSearchCache", key = "'top10'")
     public void recordSearch(String keyword) {
         String normalizedKeyword = keyword.toLowerCase();
 

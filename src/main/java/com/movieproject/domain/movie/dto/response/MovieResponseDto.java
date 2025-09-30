@@ -24,7 +24,7 @@ public record MovieResponseDto(
                 .collect(Collectors.toList());
 
         return new MovieResponseDto(
-                movie.getId(),
+                movie.getMovieId(),
                 movie.getTitle(),
                 movie.getReleaseDate(),
                 movie.getDuration(),
