@@ -64,7 +64,7 @@ public class DirectorInternalService {
     }
 
 
-    @Cacheable(value = "directorDetailCache", key = "#directorId")
+    @Cacheable(cacheNames = "directorDetailCache", key = "#directorId")
     @Transactional(readOnly = true)
     public DirectorDetailResponse getDirectorDetail(Long directorId) {
 
@@ -76,7 +76,7 @@ public class DirectorInternalService {
         return directorDetailResponse;
     }
 
-    @CacheEvict(value = "directorDetailCache", key = "#directorId")
+    @CacheEvict(cacheNames = "directorDetailCache", key = "#directorId")
     @Transactional
     public DirectorResponse updateDirector(Long directorId, DirectorUpdateRequest directorUpdateRequest) {
 
@@ -91,7 +91,7 @@ public class DirectorInternalService {
 
     }
 
-    @CacheEvict(value = "directorDetailCache", key = "#directorId")
+    @CacheEvict(cacheNames = "directorDetailCache", key = "#directorId")
     @Transactional
     public void deleteDirector(Long directorId) {
         Director director = directorRepository.findById(directorId)
