@@ -5,6 +5,7 @@ import com.movieproject.domain.director.repository.DirectorRepository;
 import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
+@Profile("dummy")
 public class DirectorDummyLoader implements CommandLineRunner {
 
     private final DirectorRepository directorRepository;

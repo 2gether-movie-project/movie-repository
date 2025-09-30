@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: dummy
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+logging:
+  level:
+    org.hibernate.SQL: off
+    org.hibernate.type.descriptor.sql.BasicBinder: off
+    org.hibernate.engine.jdbc.batch.internal.BatchingBatch: off
