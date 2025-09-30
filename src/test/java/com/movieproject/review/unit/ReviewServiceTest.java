@@ -132,7 +132,7 @@ public class ReviewServiceTest {
         ReviewRequest.Update request = new ReviewRequest.Update("수정 내용", new BigDecimal("4.9"));
 
         Movie movie = Movie.builder().title("겨울왕국").build();
-        ReflectionTestUtils.setField(movie, "id", movieId);
+        ReflectionTestUtils.setField(movie, "movieId", movieId);
         User user = User.builder().username("올라프").build();
         ReflectionTestUtils.setField(user, "userId", userId);
         Review review = Review.builder()
@@ -179,7 +179,7 @@ public class ReviewServiceTest {
         ReviewRequest.Update request = new ReviewRequest.Update("수정 내용", new BigDecimal("4.9"));
 
         Movie movie = Movie.builder().title("겨울왕국").build();
-        ReflectionTestUtils.setField(movie, "id", movieId);
+        ReflectionTestUtils.setField(movie, "movieId", movieId);
         User user = User.builder().username("올라프").build();
         ReflectionTestUtils.setField(user, "userId", 100L);
         Review review = Review.builder()
@@ -207,7 +207,7 @@ public class ReviewServiceTest {
         Long reviewId = 3L;
 
         Movie movie = Movie.builder().title("겨울왕국").build();
-        ReflectionTestUtils.setField(movie, "id", movieId);
+        ReflectionTestUtils.setField(movie, "movieId", movieId);
         User user = User.builder().username("올라프").build();
         ReflectionTestUtils.setField(user, "userId", userId);
         Review review = Review.builder()

@@ -34,7 +34,7 @@ class MovieExternalServiceTest {
         // given
         Long movieId = 1L;
         Movie mockMovie = Movie.builder().build();
-        ReflectionTestUtils.setField(mockMovie, "id", movieId);
+        ReflectionTestUtils.setField(mockMovie, "movieId", movieId);
 
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
 
@@ -43,7 +43,7 @@ class MovieExternalServiceTest {
 
         // then
         assertThat(foundMovie).isNotNull();
-        assertThat(foundMovie.getId()).isEqualTo(movieId);
+        assertThat(foundMovie.getMovieId()).isEqualTo(movieId);
     }
 
     @Test
