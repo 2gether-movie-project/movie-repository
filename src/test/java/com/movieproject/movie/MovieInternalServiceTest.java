@@ -72,7 +72,7 @@ class MovieInternalServiceTest {
         Long movieId = 1L;
         Director testDirector = Director.of("테스트 감독", "KOREA", LocalDate.now());
         Movie mockMovie = Movie.builder().title("테스트 영화").director(testDirector).build();
-        ReflectionTestUtils.setField(mockMovie, "id", movieId);
+        ReflectionTestUtils.setField(mockMovie, "movieId", movieId);
 
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
 
@@ -92,7 +92,7 @@ class MovieInternalServiceTest {
         Long movieId = 1L;
         Director testDirector = Director.of("테스트 감독", "KOREA", LocalDate.now());
         Movie mockMovie = Movie.builder().title("테스트 영화").director(testDirector).build();
-        ReflectionTestUtils.setField(mockMovie, "id", movieId);
+        ReflectionTestUtils.setField(mockMovie, "movieId", movieId);
 
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
 

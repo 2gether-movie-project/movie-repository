@@ -12,14 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cache.CacheManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@Transactional
 class MovieInternalServiceCachingTest {
-
 
     @Autowired
     private MovieInternalService movieInternalService;
@@ -52,19 +53,19 @@ class MovieInternalServiceCachingTest {
                 .genre("테스트 장르")
                 .build();
         Movie movie = movieRepository.save(movieToSave);
-        Long movieId = movie.getId();
+        Long movieId = movie.getMovieId();
 
         // when & then
         // 1. 첫 번째 호출
         System.out.println("첫 번째 호출 시작...");
         movieInternalService.getMovieInfoV2(movieId);
-        verify(movieRepository, times(1)).findById(movieId); // DB 조회 검증
+        verify(movieRepository, times(1)).findById(movieId);
         System.out.println("첫 번째 호출 완료 (DB 조회 발생)");
 
         // 2. 두 번째 호출
         System.out.println("두 번째 호출 시작...");
         movieInternalService.getMovieInfoV2(movieId);
-        verify(movieRepository, times(1)).findById(movieId); // 여전히 총 1번만 호출되었는지 검증 (캐시 사용)
+        verify(movieRepository, times(1)).findById(movieId);
         System.out.println("두 번째 호출 완료 (캐시 사용, DB 조회 없음)");
     }
 }
