@@ -33,4 +33,9 @@ public class Search extends BaseEntity {
         search.count = 1L;
         return search;
     }
+
+    public void incrementCount(String originalKeyword) {
+        this.count++;
+        this.originalKeyword = originalKeyword; // 마지막 검색어 갱신
+    }
 }

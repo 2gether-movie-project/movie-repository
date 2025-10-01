@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,10 +24,10 @@ public class SearchExternalService {
     private final ActorInternalService internalActorService;
     private final SearchRepository searchRepository;
 
+    // 저장 및 카운트 증가
     @Transactional
     protected void recordSearch(String keyword) {
         String normalizedKeyword = keyword.toLowerCase(); // 소문자 변환
-        // 존재하면 count를 증가시키는 JPQL update
         int updated = searchRepository.incrementCount(normalizedKeyword, keyword);
 
         if (updated == 0) {
@@ -76,6 +75,9 @@ public class SearchExternalService {
     //인기검색어 조회(상위 10개)
     @Transactional
     public List<String> getPopularSearches() {
-        return searchRepository.findTop10ByOrderByCountDesc().stream().map(Search::getOriginalKeyword).toList();
+        return searchRepository.findTop10ByOrderByCountDesc() // count 내림차순 상위 10개
+                .stream()
+                .map(Search::getOriginalKeyword) // 원래 입력된 검색어 반환
+                .toList();
     }
 }
