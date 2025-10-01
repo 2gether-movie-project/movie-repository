@@ -40,7 +40,7 @@ public class SearchCacheController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         searchInternalCacheService.recordSearch(name);
-        Page<MovieSearchResponse> resultPage = searchCacheService.searchActor(name, page, size);
+        PageResponse<MovieSearchResponse> resultPage = searchCacheService.searchActor(name, page, size);
         return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과 v2");
     }
 
