@@ -57,6 +57,10 @@ public class RedisCacheConfig {
         perCache.put("actorDetailCache", base.entryTtl(Duration.ofSeconds(30)));
         perCache.put("movieDetailsCache", base.entryTtl(Duration.ofMinutes(10)));
 
+        perCache.put("searchTitleCache", base.entryTtl(Duration.ofSeconds(30)));
+        perCache.put("searchActorCache", base.entryTtl(Duration.ofSeconds(30)));
+        perCache.put("searchDirectorCache", base.entryTtl(Duration.ofSeconds(30)));
+
         return RedisCacheManager.builder(cf)
                 .cacheDefaults(base)
                 .withInitialCacheConfigurations(perCache)
