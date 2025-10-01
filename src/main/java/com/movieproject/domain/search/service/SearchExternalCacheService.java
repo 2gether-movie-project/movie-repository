@@ -25,8 +25,9 @@ public class SearchExternalCacheService {
 
     @Cacheable(cacheNames = "searchTitleCache", key = "#keyword + '_' + #page + '_' + #size")
     @Transactional
-    public Page<MovieSearchResponse> searchTitle(String keyword, int page, int size) {
-        return internalMovieService.searchByKeyword(keyword, page, size);
+    public PageResponse<MovieSearchResponse> searchTitle(String keyword, int page, int size) {
+        Page<MovieSearchResponse> result = internalMovieService.searchByKeyword(keyword, page, size);
+        return PageResponse.fromPage(result);
     }
 
     @Cacheable(cacheNames = "searchActorCache", key = "#keyword + '_' + #page + '_' + #size")
@@ -39,8 +40,9 @@ public class SearchExternalCacheService {
 
     @Cacheable(cacheNames = "searchDirectorCache", key = "#keyword + '_' + #page + '_' + #size")
     @Transactional
-    public Page<MovieSearchResponse> searchDirector(String keyword, int page, int size) {
-        return internalDirectorService.searchByKeyword(keyword, page, size);
+    public PageResponse<MovieSearchResponse> searchDirector(String keyword, int page, int size) {
+        Page<MovieSearchResponse> result = internalDirectorService.searchByKeyword(keyword, page, size);
+        return PageResponse.fromPage(result);
     }
 
     @Cacheable(cacheNames = "popularSearchCache", key = "'top10'")

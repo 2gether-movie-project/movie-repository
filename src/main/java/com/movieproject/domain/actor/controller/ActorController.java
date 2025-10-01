@@ -51,7 +51,7 @@ public class ActorController {
     }
 
     //배우 상세조회
-    @GetMapping("/api/v2/{actorId}")
+    @GetMapping("/api/v2/actors/{actorId}")
     public ResponseEntity<ApiResponse<ActorDetailResponse>> getDirectorDetailByRedis(
             @PathVariable Long actorId
     ) {
