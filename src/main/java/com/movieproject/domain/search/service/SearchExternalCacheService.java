@@ -1,5 +1,6 @@
 package com.movieproject.domain.search.service;
 
+import com.movieproject.common.response.PageResponse;
 import com.movieproject.domain.actor.service.ActorInternalService;
 import com.movieproject.domain.director.service.DirectorInternalService;
 import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
@@ -22,25 +23,29 @@ public class SearchExternalCacheService {
     private final ActorInternalService internalActorService;
     private final SearchRepository searchRepository;
 
-    @Cacheable(value = "searchTitleCache", key = "#keyword + '_' + #page + '_' + #size")
+    @Cacheable(cacheNames = "searchTitleCache", key = "#keyword + '_' + #page + '_' + #size")
     @Transactional
-    public Page<MovieSearchResponse> searchTitle(String keyword, int page, int size) {
-        return internalMovieService.searchByKeyword(keyword, page, size);
+    public PageResponse<MovieSearchResponse> searchTitle(String keyword, int page, int size) {
+        Page<MovieSearchResponse> result = internalMovieService.searchByKeyword(keyword, page, size);
+        return PageResponse.fromPage(result);
     }
 
-    @Cacheable(value = "searchActorCache", key = "#keyword + '_' + #page + '_' + #size")
-    @Transactional
-    public Page<MovieSearchResponse> searchActor(String keyword, int page, int size) {
-        return internalActorService.searchByKeyword(keyword, page, size);
+    @Cacheable(cacheNames = "searchActorCache", key = "#keyword + '_' + #page + '_' + #size")
+    @Transactional(readOnly = true)
+    public PageResponse<MovieSearchResponse> searchActor(String keyword, int page, int size) {
+        Page<MovieSearchResponse> result = internalActorService.searchByKeyword(keyword, page, size);
+        return PageResponse.fromPage(result);
     }
 
-    @Cacheable(value = "searchDirectorCache", key = "#keyword + '_' + #page + '_' + #size")
+
+    @Cacheable(cacheNames = "searchDirectorCache", key = "#keyword + '_' + #page + '_' + #size")
     @Transactional
-    public Page<MovieSearchResponse> searchDirector(String keyword, int page, int size) {
-        return internalDirectorService.searchByKeyword(keyword, page, size);
+    public PageResponse<MovieSearchResponse> searchDirector(String keyword, int page, int size) {
+        Page<MovieSearchResponse> result = internalDirectorService.searchByKeyword(keyword, page, size);
+        return PageResponse.fromPage(result);
     }
 
-    @Cacheable(value = "popularSearchCache", key = "'top10'")
+    @Cacheable(cacheNames = "popularSearchCache", key = "'top10'")
     @Transactional
     public List<String> getPopularSearches() {
         return searchRepository.findTop10ByOrderByCountDesc()

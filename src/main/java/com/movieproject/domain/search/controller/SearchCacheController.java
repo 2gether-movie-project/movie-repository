@@ -6,7 +6,6 @@ import com.movieproject.domain.movie.dto.response.MovieSearchResponse;
 import com.movieproject.domain.search.service.SearchExternalCacheService;
 import com.movieproject.domain.search.service.SearchInternalCacheService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ public class SearchCacheController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         searchInternalCacheService.recordSearch(title);
-        Page<MovieSearchResponse> resultPage = searchCacheService.searchTitle(title, page, size);
+        PageResponse<MovieSearchResponse> resultPage = searchCacheService.searchTitle(title, page, size);
         return ApiResponse.pageSuccess(resultPage, "영화 제목 검색 결과 v2");
     }
 
@@ -40,7 +39,7 @@ public class SearchCacheController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         searchInternalCacheService.recordSearch(name);
-        Page<MovieSearchResponse> resultPage = searchCacheService.searchActor(name, page, size);
+        PageResponse<MovieSearchResponse> resultPage = searchCacheService.searchActor(name, page, size);
         return ApiResponse.pageSuccess(resultPage, "영화 배우 검색 결과 v2");
     }
 
@@ -51,7 +50,7 @@ public class SearchCacheController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         searchInternalCacheService.recordSearch(name);
-        Page<MovieSearchResponse> resultPage = searchCacheService.searchDirector(name, page, size);
+        PageResponse<MovieSearchResponse> resultPage = searchCacheService.searchDirector(name, page, size);
         return ApiResponse.pageSuccess(resultPage, "영화 감독 검색 결과 v2");
     }
 

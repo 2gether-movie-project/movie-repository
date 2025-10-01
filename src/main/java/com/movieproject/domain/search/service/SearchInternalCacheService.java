@@ -18,7 +18,7 @@ public class SearchInternalCacheService {
     //새로운 트랙잭션 생성
     @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @CacheEvict(value = "popularSearchCache", key = "'top10'")
+    @CacheEvict(cacheNames = "popularSearchCache", key = "'top10'")
     public void recordSearch(String keyword) {
         String normalizedKeyword = keyword.toLowerCase();
 

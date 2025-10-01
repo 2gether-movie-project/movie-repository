@@ -61,9 +61,19 @@ public class ActorInternalService {
         return PageResponse.fromPage(dtoPage);
     }
 
-    @Cacheable(cacheNames = "actorDetailCache", key = "#actorId")
     @Transactional(readOnly = true)
     public ActorDetailResponse getActorDetail(Long actorId) {
+        Actor actor = actorRepository.findByIdWithMovies(actorId)
+                .orElseThrow(() -> new ActorException(ActorErrorCode.ACTOR_NOT_FOUND));
+
+        ActorDetailResponse actorDetailResponse = ActorDetailResponse.from(actor);
+
+        return actorDetailResponse;
+    }
+
+    @Cacheable(cacheNames = "actorDetailCache", key = "#actorId")
+    @Transactional(readOnly = true)
+    public ActorDetailResponse getActorDetailByCache(Long actorId) {
         Actor actor = actorRepository.findByIdWithMovies(actorId)
                 .orElseThrow(() -> new ActorException(ActorErrorCode.ACTOR_NOT_FOUND));
 
