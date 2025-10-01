@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/directors")
 public class DirectorController {
 
     private final DirectorInternalService internalDirectorService;
 
     //감독 등록
-    @PostMapping("")
+    @PostMapping("/api/directors")
     public ResponseEntity<ApiResponse<DirectorResponse>> createDirector(@Valid @RequestBody DirectorRequest directorRequest) {
 
         DirectorResponse directorResponse = internalDirectorService.createDirectors(directorRequest);
@@ -34,7 +33,7 @@ public class DirectorController {
 
 
     //감독 전체조회
-    @GetMapping
+    @GetMapping("/api/directors")
     public ResponseEntity<PageResponse<DirectorResponse>> getDirectors(
             @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable
     ) {
@@ -45,7 +44,7 @@ public class DirectorController {
     }
 
     //감독 상세조회
-    @GetMapping("/{directorId}")
+    @GetMapping("/api/v1/directors/{directorId}")
     public ResponseEntity<ApiResponse<DirectorDetailResponse>> getDirectorDetail(
             @PathVariable Long directorId
     ) {
@@ -53,8 +52,17 @@ public class DirectorController {
         return ApiResponse.success(response, "감독 상세 정보가 성공적으로 조회되었습니다.");
     }
 
+    //감독 상세조회
+    @GetMapping("/api/v2/directors/{directorId}")
+    public ResponseEntity<ApiResponse<DirectorDetailResponse>> getDirectorDetailByCache(
+            @PathVariable Long directorId
+    ) {
+        DirectorDetailResponse response = internalDirectorService.getDirectorDetail(directorId);
+        return ApiResponse.success(response, "감독 상세 정보가 성공적으로 조회되었습니다.");
+    }
+
     //감독 수정
-    @PostMapping("/{directorId}")
+    @PostMapping("/api/directors/{directorId}")
     public ResponseEntity<ApiResponse<DirectorResponse>> updateDirector(
             @PathVariable Long directorId,
             @Valid @RequestBody DirectorUpdateRequest directorUpdateRequest) {
@@ -63,7 +71,7 @@ public class DirectorController {
     }
 
 
-    @DeleteMapping("/{directorId}")
+    @DeleteMapping("/api/directors/{directorId}")
     public ResponseEntity<ApiResponse<Void>> deleteDirector(@PathVariable Long directorId) {
         internalDirectorService.deleteDirector(directorId);
         return ApiResponse.success(null, "감독이 성공적으로 삭제되었습니다.");

@@ -63,10 +63,20 @@ public class DirectorInternalService {
         return PageResponse.fromPage(dtoPage);
     }
 
-
-    @Cacheable(cacheNames = "directorDetailCache", key = "#directorId")
     @Transactional(readOnly = true)
     public DirectorDetailResponse getDirectorDetail(Long directorId) {
+
+        Director director = directorRepository.findByIdWithMovies(directorId)
+                .orElseThrow(() -> new DirectorException(DirectorErrorCode.DIRECTOR_NOT_FOUND));
+
+        DirectorDetailResponse directorDetailResponse = DirectorDetailResponse.from(director);
+
+        return directorDetailResponse;
+    }
+    
+    @Cacheable(cacheNames = "directorDetailCache", key = "#directorId")
+    @Transactional(readOnly = true)
+    public DirectorDetailResponse getDirectorDetailByCache(Long directorId) {
 
         Director director = directorRepository.findByIdWithMovies(directorId)
                 .orElseThrow(() -> new DirectorException(DirectorErrorCode.DIRECTOR_NOT_FOUND));
