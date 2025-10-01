@@ -14,7 +14,7 @@ public class ReviewExternalService {
     private final ReviewRepository reviewRepository;
 
     public Review findByReviewId(Long reviewId) {
-        return reviewRepository.findById(reviewId)
+        return reviewRepository.findByReviewId(reviewId)
                 .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
     }
 }
