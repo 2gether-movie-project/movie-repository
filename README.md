@@ -46,6 +46,12 @@
 
 ---
 
+## 🗂️ 데이터베이스 ERD
+
+<img width="1441" height="648" alt="1" src="https://github.com/user-attachments/assets/8a685974-c515-4c2d-bc40-5b88f0bf8aed" />
+
+---
+
 ## 🔑 KEY SUMMARY
 
 - **인덱싱**: 풀 테이블 스캔을 범위 스캔으로 전환 → **응답속도 약 28배 향상** (100,000개 데이터)  
