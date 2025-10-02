@@ -52,6 +52,114 @@
 
 ---
 
+## 💻 API 명세서
+
+<details>
+<summary>1. Search API </summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| USER | 영화 제목 검색 | 유운선 | GET | Search | /api/movies/search?title={내배캠} | - |
+| USER | 영화 배우 검색 | 유운선 | GET | Search | /api/actors/search?name={홍길동} | - |
+| USER | 영화 감독 검색 | 유운선 | GET | Search | /api/directors/search?name={홍길동} | - |
+| USER | 인기 검색어 조회 | 유운선 | GET | Search | /api/search/popular | 비동기 카운트 로직 적용 |
+
+</details>
+
+<details>
+<summary>2. User API </summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| USER | 내 정보 조회 | 윤석호 | GET | User | /api/users/me | - |
+| USER | 내 정보 수정 | 윤석호 | PUT | User | /api/users/me | - |
+| USER | 다른 사용자 조회 | 윤석호 | GET | User | /api/users/{userId} | - |
+| USER | 회원 탈퇴 | 윤석호 | DELETE | User | /api/users/withdraw | - |
+
+</details>
+
+<details>
+<summary>3. Auth API </summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| USER | 회원가입 | 윤석호 | POST | Auth | /api/auth/signup | - |
+| USER | 로그인 | 윤석호 | POST | Auth | /api/auth/login | - |
+| USER | 로그아웃 | 윤석호 | POST | Auth | /api/auth/logout | - |
+| USER | 토큰 갱신 | 윤석호 | POST | Auth | /api/auth/refresh-token | 토큰 만료 시 사용 |
+| USER | 비밀번호 수정 | 윤석호 | PATCH | Auth | /api/auth/password | - |
+
+</details>
+
+<details>
+<summary>4. Movie API </summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| ADMIN | 영화 등록 | 박유현 | POST | Movie | /api/movies | - |
+| USER | 영화 목록 조회 | 박유현 | GET | Movie | /api/movies | - |
+| USER | 영화 상세 조회 | 박유현 | GET | Movie | /api/movies/{movieId} | - |
+| ADMIN | 영화 정보 수정 | 박유현 | PUT | Movie | /api/movies/{movieId} | - |
+| ADMIN | 영화 삭제 | 박유현 | DELETE | Movie | /api/movies/{movieId} | - |
+
+</details>
+
+<details>
+<summary>5. Review API </summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| USER | 내가 작성한 리뷰 목록 조회 | 이동찬 | GET | Review | /api/users/me/reviews?page=1&size=10 | - |
+| USER | 리뷰 목록 조회 | 이동찬 | GET | Review | /api/movies/{movieId}/reviews?page=1&size=10 | - |
+| USER | 리뷰 작성 | 이동찬 | POST | Review | /api/movies/{movieId}/reviews | - |
+| USER | 리뷰 수정 | 이동찬 | PUT | Review | /api/reviews/{reviewId} | - |
+| USER | 리뷰 삭제 | 이동찬 | DELETE | Review | /api/reviews/{reviewId} | - |
+| USER | 리뷰 좋아요 | 이동찬 | POST | Review | /api/reviews/{reviewId}/likes | 동시성 제어 로직 적용 |
+| USER | 리뷰 좋아요 취소 | 이동찬 | DELETE | Review | /api/reviews/{reviewId}/likes | 동시성 제어 로직 적용 |
+
+</details>
+
+<details>
+<summary>6. Actor API </summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| ADMIN | 배우 등록 | 김석준 | POST | Actor | /api/actors | - |
+| USER | 배우 목록 조회 | 김석준 | GET | Actor | /api/actors | - |
+| USER | 배우 상세 조회 (일반) | 김석준 | GET | Actor | /api/v1/actors/{actorId} | 일반 DB 조회 |
+| USER | 배우 상세 조회 (Redis) | 김석준 | GET | Actor | /api/v2/actors/{actorId} | Redis 캐싱 적용 |
+| ADMIN | 배우 정보 수정 | 김석준 | PUT | Actor | /api/actors/{actorId} | - |
+| ADMIN | 배우 삭제 | 김석준 | DELETE | Actor | /api/actors/{actorId} | - |
+
+</details>
+
+<details>
+<summary>7. Director API 🎬</summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| ADMIN | 감독 등록 | 김석준 | POST | Director | /api/directors | - |
+| USER | 감독 목록 조회 | 김석준 | GET | Director | /api/directors | - |
+| USER | 감독 상세 조회 (일반) | 김석준 | GET | Director | /api/v1/directors/{directorId} | 일반 DB 조회 |
+| USER | 감독 상세 조회 (Redis) | 김석준 | GET | Director | /api/v2/directors/{directorId} | Redis 캐싱 적용 |
+| ADMIN | 감독 정보 수정 | 김석준 | PUT | Director | /api/directors/{directorId} | - |
+| ADMIN | 감독 삭제 | 김석준 | DELETE | Director | /api/directors/{directorId} | - |
+
+</details>
+
+<details>
+<summary>8. Cast API </summary>
+
+| 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
+|------|------|--------|--------|--------|-----|------|
+| ADMIN | 출연진 등록 | 김석준 | POST | Cast | /api/movies/cast | - |
+| USER | 출연진 조회 | 김석준 | GET | Cast | /api/movies/cast | - |
+| ADMIN | 출연진 삭제 | 김석준 | DELETE | Cast | /api/movies/casts/1/1 | - |
+
+</details>
+
+---
+
 ## 🔑 KEY SUMMARY
 
 - **인덱싱**: 풀 테이블 스캔을 범위 스캔으로 전환 → **응답속도 약 28배 향상** (100,000개 데이터)  
