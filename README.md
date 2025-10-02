@@ -134,7 +134,7 @@
 </details>
 
 <details>
-<summary>7. Director API 🎬</summary>
+<summary>7. Director API </summary>
 
 | 권한 | 기능 | 담당자 | Method | Domain | URI | 비고 |
 |------|------|--------|--------|--------|-----|------|
